@@ -1,0 +1,10 @@
+file_format: "1"
+id: qmx2040
+name: QuackMatrix 2040
+type: board
+arch: arm
+features:
+  - keys
+  - studio
+outputs:
+  - usb

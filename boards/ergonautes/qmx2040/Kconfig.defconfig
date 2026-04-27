@@ -1,0 +1,7 @@
+if BOARD_QMX2040
+    config ZMK_KEYBOARD_NAME
+        default "QuackmMatrix 2040"
+
+    config RP2_FLASH_W25Q080
+        default y
+endif

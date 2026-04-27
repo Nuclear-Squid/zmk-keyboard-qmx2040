@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+TARGET=$1
+shift
+IFS=";"
+CPP_FLAGS=$*
+IFS=" "
+
+# comment out the following line to disable USB logging
+USB_LOGGING="-S zmk-usb-logging"
+
+# comment out the following lines to disable ZMK Studio support
+ZMK_STUDIO_SNIPPET="-S studio-rpc-usb-uart"
+ZMK_STUDIO_CMAKE="-DCONFIG_ZMK_STUDIO=y"
+
+# comment out the following line to enable incremental builds
+PRISTINE="-p"
+
+# target: Quacken Flex or Quacken Zero
+# - Ergogen keebs rely on an MCU board, the keeb itself is just a shield
+# - keebs with an integrated MCU are custom boards and don’t use any shield
+BOARD=
+SHIELD=
+case $TARGET in
+flex)
+	BOARD="-b quacken_flex"
+	;;
+zero)
+	BOARD="-b sparkfun_pro_micro_rp2040//zmk"
+	SHIELD="-DSHIELD=quacken_zero"
+	;;
+test)
+	BOARD="-b sparkfun_pro_micro_rp2040//zmk"
+	SHIELD="-DSHIELD=tester_pro_micro" # 'naked60' would work as well
+	;;
+*)
+	echo "Usage:"
+	echo "    $0 TARGET [optional_C++_flags]"
+	echo
+	echo "where TARGET can be:"
+	echo "    - flex: Quacken Flex 25.10+ / embedded RP2040"
+	echo "    - zero: Quacken Zero 25.07+ / SparkFun Pro Micro RP2040"
+	echo "    - test: dummy tester shield / SparkFun Pro Micro RP2040"
+	echo
+	echo "[optional_C++_flags] are defined in keymaps/quacken.keymap:"
+	echo "    - layout (qwerty by default): KB_LAYOUT_{ERGOL,AZERTY,QWERTY_LAFAYETTE...}"
+	echo "    - hold-taps (HRM by default): HT_{NONE,THUMB_TAPS,HOME_ROW_MODS}  "
+	echo "    - options: VIM_NAVIGATION, LEFT_HAND_SPACE, HRM_SHIFT, MACOS"
+	echo
+	exit 1
+	;;
+esac
+
+# ensure we have a symlink to a proper ZMK setup
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+ZMK_APP_DIR=$SCRIPT_DIR/zmk/app
+if [ ! -d $ZMK_APP_DIR ]; then
+	echo "Expecting a 'zmk' symlink to your local ZMK/Zephyr setup. Aborting."
+	exit 1
+fi
+
+# build
+cd $ZMK_APP_DIR
+source ../.venv/bin/activate
+west build $PRISTINE $USB_LOGGING $ZMK_STUDIO_SNIPPET $BOARD -- $SHIELD \
+	$ZMK_STUDIO_CMAKE \
+	-DKEYMAP_FILE="$SCRIPT_DIR/keymaps/quacken.keymap" \
+	-DZMK_EXTRA_MODULES="$SCRIPT_DIR" \
+	-DDTS_EXTRA_CPPFLAGS="$CPP_FLAGS" && {
+
+	OUTPUT_FILE="zmk_quacken_$TARGET.uf2"
+	mv build/zephyr/zmk.uf2 "$SCRIPT_DIR/$OUTPUT_FILE"
+	echo
+	echo "Successfully generated: $OUTPUT_FILE"
+	echo "                        \\_o<"
+	# check $ZMK_APP_DIR/build/zephyr/.config
+}

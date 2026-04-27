@@ -1,0 +1,20 @@
+# This file describes the keymaps that will be built by the GitHub Actions CI.
+
+include:
+
+  # Quacken Zero + SparkFun RP2040
+  - board: sparkfun_pro_micro_rp2040//zmk
+    shield: quacken_zero
+    artifact-name: quacken_zero
+    snippet: studio-rpc-usb-uart
+    cmake-args: >
+      -DKEYMAP_FILE=/__w/zmk-keyboard-quacken/zmk-keyboard-quacken/keymaps/quacken.keymap
+      -DCONFIG_ZMK_STUDIO=y
+
+  # Quacken Flex
+  - board: quacken_flex
+    artifact-name: quacken_flex
+    snippet: studio-rpc-usb-uart
+    cmake-args: >
+      -DKEYMAP_FILE=/__w/zmk-keyboard-quacken/zmk-keyboard-quacken/keymaps/quacken.keymap
+      -DCONFIG_ZMK_STUDIO=y
