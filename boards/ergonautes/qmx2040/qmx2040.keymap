@@ -1,19 +1,102 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+// Timing is key
+#define TAPPING_TERM       300
+#define SHORT_TAPPING_TERM 150
+#define QUICK_TAP          200
+
+// Human-readable layer indexes
+#define LAYER_TT  1
+#define LAYER_HRM 2
+#define LAYER_NAV 3
+
+// Shorthands
+#define HRM_S &hrm LGUI S
+#define HRM_D &hrm LCTL D
+#define HRM_F &hrm LALT F
+#define HRM_J &hrm LALT J
+#define HRM_K &hrm LCTL K
+#define HRM_L &hrm LGUI L
+
+&sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
+&sk { quick-release; };    // must-have! (lots of false positives otherwise)
+
+// add our common tap-hold parametesr to the default options
+&mt {
+  tapping-term-ms = <SHORT_TAPPING_TERM>;
+  quick-tap-ms = <QUICK_TAP>;
+};
+
+&lt {
+  tapping-term-ms = <TAPPING_TERM>;
+  quick-tap-ms = <QUICK_TAP>;
+};
 
 / {
+  behaviors {
+    hrm: homerow_mods {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <TAPPING_TERM>;
+      quick-tap-ms = <QUICK_TAP>;
+      flavor = "tap-preferred";
+      bindings = <&kp>, <&kp>;
+    };
+    sc: space_cadet { // same as lt, but with hold-preferred
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <SHORT_TAPPING_TERM>;
+      quick-tap-ms = <QUICK_TAP>;
+      flavor = "hold-preferred";
+      bindings = <&mo>, <&kp>;
+    };
+  };
+
   keymap {
     compatible = "zmk,keymap";
 
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &kp N1 &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6       &kp N1 &kp N6 &kp N7 &kp N8    &kp N9  &kp N0   &kp MINUS &kp EQUAL
-        &kp N2 &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp N7       &kp N2 &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
-        &kp N3 &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp N8       &kp N3 &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
-        &kp N4           &kp Z  &kp X  &kp C  &kp V  &kp B                      &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
-        &kp N5                  &kp N1 &kp N2 &kp N3 &kp N4 &kp N5       &kp N6 &kp N7 &kp N8 &kp N9 &kp N0
+        &tog LAYER_TT  &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6      &kp DEL   &kp N6 &kp N7 &kp N8    &kp N9  &kp N0   &kp MINUS &kp EQUAL
+        &tog LAYER_HRM &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
+        &none          &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
+        &none                    &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
+        &none                   &none  &kp LALT &kp LSFT &kp LCTL &kp LGUI      &mo LAYER_NAV &kp SPC &kp RALT &kp LALT &none
+      >;
+    };
+
+    thumb_taps_layer: thumb_taps_layer {
+      display-name = "ThumbTaps";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &kp ENTER &lt LAYER_NAV SPC &trans &trans &trans
+      >;
+    };
+
+    hrm_layer: hrm_layer {
+      display-name = "HomeRowMods";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans HRM_S  HRM_D  HRM_F  &trans &trans &trans &trans HRM_J  HRM_K  HRM_L  &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+      >;
+    };
+
+    navigation_layer: navigation_layer {
+      display-name = "Navigation";
+      bindings = <
+        &trans &trans &trans  &trans   &trans   &trans    &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &kp ESC &kp HOME &kp UP   &kp END   &trans &trans &trans &trans &kp N7 &kp N8 &kp N9 &trans &trans &trans
+        &trans &trans &trans  &kp LEFT &kp DOWN &kp RIGHT &trans &trans &trans &trans &kp N4 &kp N5 &kp N6 &trans &trans &trans
+        &trans        &trans  &trans   &trans   &trans    &trans               &trans &kp N1 &kp N2 &kp N3 &trans
+        &trans        &trans  &trans   &trans   &trans    &trans               &trans &trans &trans &trans &trans
       >;
     };
   };
