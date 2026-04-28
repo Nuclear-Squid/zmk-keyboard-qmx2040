@@ -3,3 +3,5 @@
 include:
   - board: qmx2040
     artifact-name: qmx2040
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
