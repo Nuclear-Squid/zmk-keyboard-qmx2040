@@ -19,6 +19,9 @@
 #define HRM_K &hrm LCTL K
 #define HRM_L &hrm LGUI L
 
+#define EZ_SL(layer)  bsl (layer) (layer)
+#define EZ_SK(mod)    bsk (mod) (mod)
+
 &sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
 &sk { quick-release; };    // must-have! (lots of false positives otherwise)
 
@@ -51,6 +54,36 @@
       flavor = "hold-preferred";
       bindings = <&mo>, <&kp>;
     };
+    // like ZMK's sticky layer (sl) but with a more robust timing
+    osl: one_shot_layer {
+      compatible = "zmk,behavior-macro-one-param";
+      #binding-cells = <1>;
+      tap-ms = <0>;
+      wait-ms = <0>;
+      bindings = <&macro_param_1to1>, <&macro_tap &sl MACRO_PLACEHOLDER>;
+    };
+    bsl: better_sticky_layer {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <TAPPING_TERM>;
+      flavor = "tap-preferred";
+      bindings = <&mo>, <&osl>;
+    };
+    // like ZMK's sticky key (sk) but with a more robust timing
+    osm: one_shot_modifier {
+      compatible = "zmk,behavior-macro-one-param";
+      #binding-cells = <1>;
+      tap-ms = <0>;
+      wait-ms = <0>;
+      bindings = <&macro_param_1to1>, <&macro_tap &sk MACRO_PLACEHOLDER>;
+    };
+    bsk: better_sticky_key {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <TAPPING_TERM>;
+      flavor = "tap-preferred";
+      bindings = <&kp>, <&osm>;
+    };
   };
 
   keymap {
@@ -63,7 +96,7 @@
         &tog LAYER_HRM &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
         &none          &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
         &none                    &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
-        &none                   &none  &kp LALT &kp LSFT &kp LCTL &kp LGUI      &mo LAYER_NAV &kp SPC &kp RALT &kp LALT &none
+        &none             &kp LGUI &kp LALT &EZ_SK(LSFT) &kp SPC &EZ_SK(LCTL)   &EZ_SL(LAYER_NAV) &kp SPC &EZ_SK(RALT) &kp LALT &kp RGUI
       >;
     };
 
