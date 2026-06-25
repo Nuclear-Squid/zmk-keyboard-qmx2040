@@ -7,9 +7,10 @@
 #define QUICK_TAP          200
 
 // Human-readable layer indexes
-#define LAYER_TT  1
-#define LAYER_HRM 2
-#define LAYER_NAV 3
+#define LAYER_TT     1
+#define LAYER_HRM    2
+#define LAYER_NAV_TT 3
+#define LAYER_NAV    4
 
 // Shorthands
 #define HRM_S &hrm LGUI S
@@ -95,6 +96,14 @@
     };
   };
 
+  conditional_layers {
+    compatible = "zmk,conditional-layers";
+    nav_tt {
+      if-layers = <LAYER_TT LAYER_NAV>;
+      then-layer = <LAYER_NAV_TT>;
+    };
+  };
+
   keymap {
     compatible = "zmk,keymap";
 
@@ -116,7 +125,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-        &trans        &trans &trans &trans &trans &trans               &kp ENTER &lt LAYER_NAV SPC &trans &trans &trans
+        &trans        &trans &trans &trans &sc LAYER_NAV BSPC &mt LCTL TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
       >;
     };
 
@@ -128,6 +137,17 @@
         &trans &trans &trans HRM_S  HRM_D  HRM_F  &trans &trans &trans &trans HRM_J  HRM_K  HRM_L  &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+      >;
+    };
+
+    nav_tt_layer: nav_tt_layer {
+      display-name = "NavTT";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &kp DEL &kp LS(TAB)         &trans &trans &trans &trans &trans
       >;
     };
 
