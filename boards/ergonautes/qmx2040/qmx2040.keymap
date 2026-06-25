@@ -125,7 +125,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-        &trans        &trans &trans &trans &lt LAYER_NAV BSPC &mt LCTL TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
+        &trans        &trans &trans &trans &sc LAYER_NAV BSPC &mt LCTL TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
       >;
     };
 
