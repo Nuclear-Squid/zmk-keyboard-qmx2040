@@ -43,47 +43,47 @@ RC(4,0)                 RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7)  RC(9,7) RC(9,6)
 
     kscan_left: kscan_left {
         compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
+        diode-direction = "row2col";
         row-gpios
-            = <&rp2040_gpio 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Numbers
-            , <&rp2040_gpio 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Top
-            , <&rp2040_gpio  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Home
-            , <&rp2040_gpio  8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Bottom
-            , <&rp2040_gpio  0 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Thumb
+            = <&rp2040_gpio 11 GPIO_ACTIVE_LOW>  // Numbers
+            , <&rp2040_gpio 10 GPIO_ACTIVE_LOW>  // Top
+            , <&rp2040_gpio  9 GPIO_ACTIVE_LOW>  // Home
+            , <&rp2040_gpio  8 GPIO_ACTIVE_LOW>  // Bottom
+            , <&rp2040_gpio  0 GPIO_ACTIVE_LOW>  // Thumb
         ;
 
         col-gpios
-            = <&rp2040_gpio  1 GPIO_ACTIVE_HIGH>  // Bépo
-            , <&rp2040_gpio  2 GPIO_ACTIVE_HIGH>  // Outer
-            , <&rp2040_gpio  3 GPIO_ACTIVE_HIGH>  // Pinky
-            , <&rp2040_gpio  4 GPIO_ACTIVE_HIGH>  // Ring
-            , <&rp2040_gpio  5 GPIO_ACTIVE_HIGH>  // Middle
-            , <&rp2040_gpio  6 GPIO_ACTIVE_HIGH>  // Index
-            , <&rp2040_gpio  7 GPIO_ACTIVE_HIGH>  // Inner
-            , <&rp2040_gpio 12 GPIO_ACTIVE_HIGH>  //  Tmx
+            = <&rp2040_gpio  1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Bépo
+            , <&rp2040_gpio  2 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Outer
+            , <&rp2040_gpio  3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Pinky
+            , <&rp2040_gpio  4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Ring
+            , <&rp2040_gpio  5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Middle
+            , <&rp2040_gpio  6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Index
+            , <&rp2040_gpio  7 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Inner
+            , <&rp2040_gpio 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  //  Tmx
         ;
     };
 
     kscan_right: kscan_right {
         compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "col2row";
+        diode-direction = "row2col";
         row-gpios
-            = <&io_exp_gpio  4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Numbers
-            , <&io_exp_gpio  5 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Top
-            , <&io_exp_gpio  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Home
-            , <&io_exp_gpio  7 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Bottom
-            , <&io_exp_gpio 16 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Thumb
+            = <&io_exp_gpio  4 GPIO_ACTIVE_LOW>  // Numbers
+            , <&io_exp_gpio  5 GPIO_ACTIVE_LOW>  // Top
+            , <&io_exp_gpio  6 GPIO_ACTIVE_LOW>  // Home
+            , <&io_exp_gpio  7 GPIO_ACTIVE_LOW>  // Bottom
+            , <&io_exp_gpio 16 GPIO_ACTIVE_LOW>  // Thumb
         ;
 
         col-gpios
-            = <&io_exp_gpio 15 GPIO_ACTIVE_HIGH>  // Bépo
-            , <&io_exp_gpio 14 GPIO_ACTIVE_HIGH>  // Outer
-            , <&io_exp_gpio 13 GPIO_ACTIVE_HIGH>  // Pinky
-            , <&io_exp_gpio 12 GPIO_ACTIVE_HIGH>  // Ring
-            , <&io_exp_gpio 11 GPIO_ACTIVE_HIGH>  // Middle
-            , <&io_exp_gpio 10 GPIO_ACTIVE_HIGH>  // Index
-            , <&io_exp_gpio  9 GPIO_ACTIVE_HIGH>  // Inner
-            , <&io_exp_gpio  8 GPIO_ACTIVE_HIGH>  // Tmx
+            = <&io_exp_gpio 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Bépo
+            , <&io_exp_gpio 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Outer
+            , <&io_exp_gpio 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Pinky
+            , <&io_exp_gpio 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Ring
+            , <&io_exp_gpio 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Middle
+            , <&io_exp_gpio 10 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Index
+            , <&io_exp_gpio  9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Inner
+            , <&io_exp_gpio  8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>  // Tmx
         ;
     };
 
