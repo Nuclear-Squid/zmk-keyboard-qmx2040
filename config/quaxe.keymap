@@ -5,21 +5,27 @@
 #define TAPPING_TERM       300
 #define SHORT_TAPPING_TERM 150
 #define QUICK_TAP          200
+#define EXTENDED_TAP       150
 
 // Human-readable layer indexes
 #define LAYER_MIRROR  1
 #define LAYER_NAV     2
 #define LAYER_NUM_PAD 3
+#define LAYER_CALLUM  4
+#define LAYER_FUNPAD  4
 
-// Shorthands
-#define HRM_A &kp A
-#define HRM_S &hrm LGUI S
-#define HRM_D &hrm LCTL D
-#define HRM_F &hrm LALT F
+#define PREV LA(LEFT)
+#define NEXT LA(RIGHT)
 
-#define EZ_SL(layer)    bsl   (layer) (layer)
-#define EZ_SLMH(layer)  bslmh (layer) (layer)
-#define EZ_SK(mod)      bsk   (mod) (mod)
+#define EZ_SK(mod) &bsk (mod) (mod)
+
+#define MOD_HOLD(short_name, long_name, _binding, mask) \
+    short_name: long_name {                             \
+      compatible = "zmk,behavior-mod-hold";             \
+      #binding-cells = <2>;                             \
+      binding = <_binding>;                             \
+      mods-to-hold = <mask>;                            \
+    }
 
 &sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
 &sk { quick-release; };    // must-have! (lots of false positives otherwise)
@@ -27,7 +33,7 @@
 // add our common tap-hold parametesr to the default options
 &mt {
   tapping-term-ms = <SHORT_TAPPING_TERM>;
-  quick-tap-ms = <QUICK_TAP>;
+  quick-tap-ms = <0>;
 };
 
 &lt {
@@ -37,59 +43,102 @@
 
 / {
   behaviors {
-    hrm: homerow_mods {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <TAPPING_TERM>;
-      quick-tap-ms = <QUICK_TAP>;
-      flavor = "tap-preferred";
-      bindings = <&kp>, <&kp>;
-    };
-    sc: space_cadet { // same as lt, but with hold-preferred
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <SHORT_TAPPING_TERM>;
-      quick-tap-ms = <QUICK_TAP>;
-      flavor = "hold-preferred";
-      bindings = <&mo>, <&kp>;
-    };
-    // like ZMK's sticky layer (sl) but with a more robust timing
-    osl: one_shot_layer {
-      compatible = "zmk,behavior-macro-one-param";
-      #binding-cells = <1>;
-      tap-ms = <0>;
-      wait-ms = <0>;
-      bindings = <&macro_param_1to1>, <&macro_tap &sl MACRO_PLACEHOLDER>;
-    };
-    bsl: better_sticky_layer {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <TAPPING_TERM>;
-      flavor = "tap-preferred";
-      bindings = <&mo>, <&osl>;
-    };
     // like ZMK's sticky key (sk) but with a more robust timing
     osm: one_shot_modifier {
       compatible = "zmk,behavior-macro-one-param";
       #binding-cells = <1>;
       tap-ms = <0>;
       wait-ms = <0>;
-      bindings = <&macro_param_1to1>, <&macro_tap &sk MACRO_PLACEHOLDER>;
+      bindings = <&macro_tap &macro_param_1to1 &sk MACRO_PLACEHOLDER>;
     };
+
     bsk: better_sticky_key {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       tapping-term-ms = <TAPPING_TERM>;
       flavor = "tap-preferred";
       bindings = <&kp>, <&osm>;
+      hold-while-undecided-linger;
+      hold-while-undecided;
+    };
+
+    sc: space_cadet { // same as lt, but with hold-preferred
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <SHORT_TAPPING_TERM>;
+      quick-tap-ms = <0>;
+      flavor = "hold-preferred";
+      bindings = <&mo>, <&kp>;
+    };
+
+    lsk: lazy_sticky_key {
+      compatible = "zmk,behavior-sticky-key";
+      #binding-cells = <1>;
+      bindings = <&kp>;
+      release-after-ms = <1000>;
+      quick-release;
+      ignore-modifiers;
+      lazy;
+    };
+
+    sc_lsk: space_cadet_on_one_shot_mod {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <SHORT_TAPPING_TERM>;
+      quick-tap-ms = <QUICK_TAP>;
+      flavor = "hold-preferred";
+      bindings = <&mo>, <&lsk>;
+    };
+
+    mo_mod: mods_and_momentary_layer {
+      compatible = "zmk,behavior-macro-two-param";
+      #binding-cells = <2>;
+      tap-ms = <0>;
+      wait-ms = <0>;
+      bindings = <
+        &macro_press
+        &macro_param_1to1
+        &mo MACRO_PLACEHOLDER
+        &macro_param_2to1
+        &kp MACRO_PLACEHOLDER
+
+        &macro_pause_for_release
+        &macro_release
+        &macro_param_1to1
+        &mo MACRO_PLACEHOLDER
+        &macro_param_2to1
+        &kp MACRO_PLACEHOLDER
+      >;
     };
 
     // mod-holds
-    bslmh: better_sticky_layer_with_held_mods {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&bsl>;
-      mods-to-hold = <0xff>;  // every possible modifier
+    MOD_HOLD(mh_mo,     momentary_layer_with_held_mods, &mo,     0xff);
+    MOD_HOLD(mh_mt,     mod_tap_with_held_mods,         &mt,     0xff);
+    MOD_HOLD(mh_sc,     space_cadet_with_held_mods,     &sc,     0xff);
+    MOD_HOLD(mh_mo_mod, held_mods_and_momentary_layer,  &mo_mod, 0xff);
+
+    altgr_td: altgr_td {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <QUICK_TAP>;
+      post-tapping-term-ms = <EXTENDED_TAP>;
+      bindings = <&mh_mt RALT ESC>, <&mh_mo_mod LAYER_MIRROR RALT>;
+    };
+
+    callum_td: callum_td {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <QUICK_TAP>;
+      post-tapping-term-ms = <EXTENDED_TAP>;
+      bindings = <&sc_lsk LAYER_CALLUM LSFT>, <&mh_mo LAYER_MIRROR 0>;
+      eager;
+    };
+
+    nav_td: nav_td {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <QUICK_TAP>;
+      bindings = <&mh_sc LAYER_NAV ENTER>, <&mh_sc LAYER_NUM_PAD CAPS>;
     };
   };
 
@@ -99,44 +148,84 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &none &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN
-        &none &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS
-        &none &kp NUBS  HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp ESC
-        &none           &kp Z  &kp X  &kp C  &kp V  &kp B
-        &none &mo LAYER_NUM_PAD &mt RALT ESC &mt LSFT BSPC &lt LAYER_NAV SPC &sc LAYER_MIRROR ENTER
+        &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp C_MUTE
+        &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
+        &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_DN
+                  &kp Z  &kp X  &kp C  &kp V  &kp B
+        &mo LAYER_FUNPAD &altgr_td &callum_td &mh_sc LAYER_MIRROR SPC &nav_td
+        &none  &none  &none  &none  &none
       >;
     };
 
     mirror_layer: mirror_layer {
       display-name = "Mirror";
       bindings = <
-        &trans &kp MINUS &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
-        &trans &kp LBKT  &kp P    &kp O   &kp I     &kp U  &kp Y  &kp BSPC
-        &trans &kp SQT   &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp ENTER
-        &trans           &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
-        &trans                      &trans &trans &trans &trans &trans
+        &kp MINUS   &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
+        EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp C_BRI_UP
+        &kp SQT     &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp C_BRI_DN
+                    &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
+                           &trans &trans &trans &trans &trans
+        &trans  &trans  &trans  &trans  &trans
       >;
     };
 
     navigation_layer: navigation_layer {
       display-name = "Navigation";
       bindings = <
-        &trans &trans         &kp F1  &kp F2   &kp F3   &kp F4    &kp F5    &kp C_PREV
-        &trans &studio_unlock &trans  &kp HOME &kp UP   &kp END   &kp PG_UP &kp C_NEXT
-        &trans &trans         &trans  &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &kp C_PP
-        &trans                &trans  &trans   &trans   &trans    &trans
-        &trans                &trans  &trans   &trans   &trans    &trans
+        &trans         &kp F1   &kp F2   &kp F3   &kp F4    &kp F5    &kp C_PP
+        &studio_unlock &kp NEXT &kp HOME &kp UP   &kp END   &kp PG_UP &kp C_NEXT
+        &trans         &kp PREV &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &kp C_PREV
+                       &trans   &trans   &trans   &trans    &trans
+                       &trans   &trans   &trans   &trans    &trans
+        &trans  &trans  &trans  &trans  &trans
       >;
     };
 
     num_pad_layer: num_pad_layer {
       display-name = "NumPad";
       bindings = <
-        &trans &kp F11      &kp F10      &kp F9    &kp F8    &kp F7    &kp F6       &kp C_VOL_UP
-        &trans &kp C_BRI_UP &kp KP_SLASH &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_NUM   &kp C_VOL_DN
-        &trans &kp C_BRI_DN &kp KP_N0    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MINUS &kp C_MUTE
-        &trans              &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &trans
-        &trans              &trans       &trans    &trans    &trans    &trans
+        &kp F11      &kp F10      &kp F9    &kp F8    &kp F7    &kp F6       &trans
+        &kp C_BRI_UP &kp KP_SLASH &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_NUM   &trans
+        &kp C_BRI_DN &kp KP_N0    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MINUS &trans
+                     &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &trans
+                     &trans       &trans    &trans    &trans    &trans
+        &trans  &trans  &trans  &trans  &trans
+      >;
+    };
+
+    callum_mods: callum_mods {
+      display-name = "callum_mods";
+      bindings = <
+        &trans &trans      &trans      &trans      &trans      &trans &trans
+        &trans &trans      &kp TAB     &trans      &trans      &trans &trans
+        &trans EZ_SK(LSFT) EZ_SK(LGUI) EZ_SK(LCTL) EZ_SK(LALT) &trans &trans
+               &trans      &trans      &trans      &kp BSPC    &trans
+                   &trans &trans &trans &trans &trans
+        &trans  &trans  &trans  &trans  &trans
+      >;
+    };
+
+    funpad_layer: funpad_layer {
+      display-name = "empty";
+      bindings = <
+        &trans &trans  &trans  &trans  &trans &trans &trans
+        &trans &kp F1  &kp F2  &kp F3  &kp F4 &trans &trans
+        &trans &kp F5  &kp F6  &kp F7  &kp F8 &trans &trans
+               &kp F9  &kp F10 &kp F11 &kp F12 &trans
+                   &trans &trans &trans &trans &trans
+        &trans  &trans  &trans  &trans  &trans
+      >;
+    };
+
+    empty: empty {
+      display-name = "empty";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans
+               &trans &trans &trans &trans &trans
+                   &trans &trans &trans &trans &trans
+        &trans  &trans  &trans  &trans  &trans
       >;
     };
   };
