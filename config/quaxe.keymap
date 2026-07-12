@@ -12,7 +12,7 @@
 #define LAYER_NUM_PAD 3
 
 // Shorthands
-#define HRM_A &kp A
+#define HRM_A &mhkp 0 A
 #define HRM_S &hrm LGUI S
 #define HRM_D &hrm LCTL D
 #define HRM_F &hrm LALT F
@@ -95,6 +95,31 @@
       binding = <&bsl>;
       mods-to-hold = <0xff>;  // every possible modifier
     };
+
+    mh: raw_mod_hold {
+      compatible = "zmk,behavior-mod-hold";
+      #binding-cells = <2>;
+      binding = <&none>;
+      mods-to-hold = <(MOD_LCTL|MOD_RCTL|MOD_LALT|MOD_RALT|MOD_LGUI|MOD_RGUI)>;
+    };
+
+    mhkp: hrm_with_raw_mh_on_hold {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <TAPPING_TERM>;
+      quick-tap-ms = <QUICK_TAP>;
+      flavor = "tap-preferred";
+      bindings = <&mh>, <&kp>;
+    };
+
+    // Mod-monphs
+    tab_mir_sym: tab_mir_sym {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings = <&kp TAB>, <&EZ_SLMH(LAYER_MIRROR)>;
+      mods      = <RALT>;
+      keep-mods = <RALT>;
+    };
   };
 
   keymap {
@@ -103,21 +128,21 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &none &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN
-        &none &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS
-        &none &kp NUBS  HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp ESC
-        &none           &kp Z  &kp X  &kp C  &kp V  &kp B
-        &none &mo LAYER_NUM_PAD &mt RALT ESC &mt LSFT BSPC &lt LAYER_NAV SPC &sc LAYER_MIRROR ENTER
+        &none &kp GRAVE    &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN
+        &none &tab_mir_sym &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS
+        &none &kp NUBS     HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp ESC
+        &none              &kp Z  &kp X  &kp C  &kp V  &kp B
+        &none &mo LAYER_NUM_PAD &mt RALT ESC &mt LSFT BSPC &sc LAYER_MIRROR SPC &lt LAYER_NAV ENTER
       >;
     };
 
     mirror_layer: mirror_layer {
       display-name = "Mirror";
       bindings = <
-        &trans &kp MINUS &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
-        &trans &kp LBKT  &kp P    &kp O   &kp I     &kp U  &kp Y  &kp BSPC
-        &trans &kp SQT   &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp ENTER
-        &trans           &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
+        &trans &kp MINUS    &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
+        &trans &EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp BSPC
+        &trans &kp SQT      &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp ENTER
+        &trans              &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
         &trans                      &trans &trans &trans &trans &trans
       >;
     };
