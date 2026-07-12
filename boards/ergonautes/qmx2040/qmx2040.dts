@@ -177,6 +177,94 @@ RC(4,0)                 RC(4,3) RC(4,4) RC(4,5) RC(4,6) RC(4,7)  RC(9,7) RC(9,6)
             , <KEY(12, 8)>
             ;
     };
+
+    physical_layout1: physical_layout_1 { // First physical layout, use different naming for other layouts
+        compatible = "zmk,physical-layout";
+        display-name = "Layout 2";
+        kscan = <&kscan_composite>; // Label of the kscan node, optional if all layouts use the same
+        transform = <&default_transform>; // Label of the matrix transform for this layout
+        keys
+            = <KEY(0,  1)>
+            , <KEY(1,  1)>
+            , <KEY(2,  0)>
+            , <KEY(3,  0)>
+            , <KEY(4,  0)>
+            , <KEY(5,  0)>
+            , <KEY(6,  0)>
+            , <KEY(7,  1)>
+
+            , <KEY(8,  1)>
+            , <KEY(9,  0)>
+            , <KEY(10, 0)>
+            , <KEY(11, 0)>
+            , <KEY(12, 0)>
+            , <KEY(13, 0)>
+            , <KEY(14, 1)>
+            , <KEY(15, 1)>
+
+            , <KEY(0,  3)>
+            , <KEY(1,  3)>
+            , <KEY(2,  2)>
+            , <KEY(3,  2)>
+            , <KEY(4,  2)>
+            , <KEY(5,  2)>
+            , <KEY(6,  2)>
+            , <KEY(7,  3)>
+
+            , <KEY(8,  3)>
+            , <KEY(9,  2)>
+            , <KEY(10, 2)>
+            , <KEY(11, 2)>
+            , <KEY(12, 2)>
+            , <KEY(13, 2)>
+            , <KEY(14, 3)>
+            , <KEY(15, 3)>
+
+            , <KEY(0,  5)>
+            , <KEY(1,  5)>
+            , <KEY(2,  4)>
+            , <KEY(3,  4)>
+            , <KEY(4,  4)>
+            , <KEY(5,  4)>
+            , <KEY(6,  4)>
+            , <KEY(7,  5)>
+
+            , <KEY(8,  5)>
+            , <KEY(9,  4)>
+            , <KEY(10, 4)>
+            , <KEY(11, 4)>
+            , <KEY(12, 4)>
+            , <KEY(13, 4)>
+            , <KEY(14, 5)>
+            , <KEY(15, 5)>
+
+            , <KEY(0,  7)>
+            , <KEY(2,  6)>
+            , <KEY(3,  6)>
+            , <KEY(4,  6)>
+            , <KEY(5,  6)>
+            , <KEY(6,  6)>
+
+            , <KEY(9,  6)>
+            , <KEY(10, 6)>
+            , <KEY(11, 6)>
+            , <KEY(12, 6)>
+            , <KEY(13, 6)>
+
+            , <KEY(0,  9)>
+            , <KEY(3,  8)>
+            , <KEY(4,  8)>
+            , <KEY(5,  8)>
+            , <KEY(6,  8)>
+            , <KEY(7,  8)>
+
+            , <KEY(8,  8)>
+            , <KEY(9,  8)>
+            , <KEY(10, 8)>
+            , <KEY(11, 8)>
+            , <KEY(12, 8)>
+            ;
+    };
 };
 
 rp2040_gpio: &gpio0 {
