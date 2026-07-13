@@ -17,6 +17,9 @@
 #define HRM_D &hrm LCTL D
 #define HRM_F &hrm LALT F
 
+#define PREV LA(LEFT)
+#define NEXT LA(RIGHT)
+
 #define EZ_SL(layer)    bsl   (layer) (layer)
 #define EZ_SLMH(layer)  bslmh (layer) (layer)
 #define EZ_SK(mod)      bsk   (mod) (mod)
@@ -128,11 +131,11 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &none &kp GRAVE    &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN
-        &none &tab_mir_sym &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS
-        &none &kp NUBS     HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp ESC
+        &none &kp GRAVE    &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp C_MUTE
+        &none &tab_mir_sym &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
+        &none &kp NUBS     HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp C_VOL_DN
         &none              &kp Z  &kp X  &kp C  &kp V  &kp B
-        &none &mo LAYER_NUM_PAD &mt RALT ESC &mt LSFT BSPC &sc LAYER_MIRROR SPC &lt LAYER_NAV ENTER
+        &none &sc LAYER_NUM_PAD CAPS &mt RALT ESC &mt LSFT BSPC &sc LAYER_MIRROR SPC &sc LAYER_NAV ENTER
       >;
     };
 
@@ -140,8 +143,8 @@
       display-name = "Mirror";
       bindings = <
         &trans &kp MINUS    &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
-        &trans &EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp BSPC
-        &trans &kp SQT      &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp ENTER
+        &trans &EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp C_BRI_UP
+        &trans &kp SQT      &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp C_BRI_DN
         &trans              &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
         &trans                      &trans &trans &trans &trans &trans
       >;
@@ -150,20 +153,20 @@
     navigation_layer: navigation_layer {
       display-name = "Navigation";
       bindings = <
-        &trans &trans         &kp F1  &kp F2   &kp F3   &kp F4    &kp F5    &kp C_PREV
-        &trans &studio_unlock &trans  &kp HOME &kp UP   &kp END   &kp PG_UP &kp C_NEXT
-        &trans &trans         &trans  &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &kp C_PP
-        &trans                &trans  &trans   &trans   &trans    &trans
-        &trans                &trans  &trans   &trans   &trans    &trans
+        &trans &trans         &kp F1   &kp F2   &kp F3   &kp F4    &kp F5    &kp C_PP
+        &trans &studio_unlock &kp NEXT &kp HOME &kp UP   &kp END   &kp PG_UP &kp C_NEXT
+        &trans &trans         &kp PREV &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &kp C_PREV
+        &trans                &trans   &trans   &trans   &trans    &trans
+        &trans                &trans   &trans   &trans   &trans    &trans
       >;
     };
 
     num_pad_layer: num_pad_layer {
       display-name = "NumPad";
       bindings = <
-        &trans &kp F11      &kp F10      &kp F9    &kp F8    &kp F7    &kp F6       &kp C_VOL_UP
-        &trans &kp C_BRI_UP &kp KP_SLASH &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_NUM   &kp C_VOL_DN
-        &trans &kp C_BRI_DN &kp KP_N0    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MINUS &kp C_MUTE
+        &trans &kp F11      &kp F10      &kp F9    &kp F8    &kp F7    &kp F6       &trans
+        &trans &kp C_BRI_UP &kp KP_SLASH &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_NUM   &trans
+        &trans &kp C_BRI_DN &kp KP_N0    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MINUS &trans
         &trans              &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &trans
         &trans              &trans       &trans    &trans    &trans    &trans
       >;
