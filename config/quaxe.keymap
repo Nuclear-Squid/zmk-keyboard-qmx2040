@@ -99,11 +99,25 @@
       mods-to-hold = <0xff>;  // every possible modifier
     };
 
+    mhmt: mod_tap_with_held_mods {
+      compatible = "zmk,behavior-mod-hold";
+      #binding-cells = <2>;
+      binding = <&mt>;
+      mods-to-hold = <0xff>;
+    };
+
+    mhsc: space_cadet_with_held_mods {
+      compatible = "zmk,behavior-mod-hold";
+      #binding-cells = <2>;
+      binding = <&sc>;
+      mods-to-hold = <0xff>;
+    };
+
     mh: raw_mod_hold {
       compatible = "zmk,behavior-mod-hold";
       #binding-cells = <2>;
       binding = <&none>;
-      mods-to-hold = <(MOD_LCTL|MOD_RCTL|MOD_LALT|MOD_RALT|MOD_LGUI|MOD_RGUI)>;
+      mods-to-hold = <0xff>;
     };
 
     mhkp: hrm_with_raw_mh_on_hold {
@@ -135,7 +149,7 @@
         &none &tab_mir_sym &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
         &none &kp NUBS     HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp C_VOL_DN
         &none              &kp Z  &kp X  &kp C  &kp V  &kp B
-        &none &sc LAYER_NUM_PAD CAPS &mt RALT ESC &mt LSFT BSPC &sc LAYER_MIRROR SPC &sc LAYER_NAV ENTER
+        &none &mhsc LAYER_NUM_PAD CAPS &mhmt RALT ESC &mhmt LSFT BSPC &mhsc LAYER_MIRROR SPC &mhsc LAYER_NAV ENTER
       >;
     };
 
