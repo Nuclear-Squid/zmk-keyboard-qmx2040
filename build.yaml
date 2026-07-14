@@ -5,3 +5,10 @@ include:
     artifact-name: qmx2040
     snippet: studio-rpc-usb-uart zmk-usb-logging
     cmake-args: -DCONFIG_ZMK_STUDIO=y
+
+  - board: qmx2040
+    artifact-name: quaxe
+    snippet: studio-rpc-usb-uart zmk-usb-logging quaxe-config-overrides
+    cmake-args: >
+      -DCONFIG_ZMK_STUDIO=y
+      -DKEYMAP_FILE=/__w/zmk-keyboard-qmx2040/zmk-keyboard-qmx2040/config/quaxe.keymap

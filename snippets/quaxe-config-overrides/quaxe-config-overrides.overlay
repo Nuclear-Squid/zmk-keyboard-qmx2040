@@ -1,0 +1,7 @@
+/* &i2c0 { */
+/*     status = "disabled"; */
+/* }; */
+
+/* &io_exp_gpio { */
+/*     status = "disabled"; */
+/* }; */

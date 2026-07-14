@@ -1,0 +1,5 @@
+name: quaxe-config-overrides
+append:
+  # DTS_EXTRA_CPPFLAGS: -DZMK_BEHAVIORS_KEEP_ALL
+  EXTRA_DTC_OVERLAY_FILE: quaxe-config-overrides.overlay
+  EXTRA_CONF_FILE: quaxe-config-overrides.conf
