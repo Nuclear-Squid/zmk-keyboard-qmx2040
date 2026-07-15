@@ -185,5 +185,27 @@
         &trans              &trans       &trans    &trans    &trans    &trans
       >;
     };
+
+    callum_mods: callum_mods {
+      display-name = "callum_mods";
+      bindings = <
+        &trans &trans &trans    &trans    &trans    &trans    &trans &trans
+        &trans &trans &trans    &trans    &trans    &trans    &trans &trans
+        &trans &trans &osl LSFT &osl LGUI &osl LCTL &osl LALT &trans &trans
+        &trans        &trans    &trans    &trans    &trans    &trans
+        &trans            &trans &trans &trans &trans &trans
+      >;
+    };
+
+    empty: empty {
+      display-name = "empty";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans
+        &trans            &trans &trans &trans &trans &trans
+      >;
+    };
   };
 };

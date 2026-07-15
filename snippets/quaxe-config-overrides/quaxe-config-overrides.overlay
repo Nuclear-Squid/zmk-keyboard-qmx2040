@@ -3,5 +3,6 @@
 /* }; */
 
 /* &io_exp_gpio { */
-/*     status = "disabled"; */
+    /* status = "disabled"; */
+    /* /delete-property/ status; */
 /* }; */
