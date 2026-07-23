@@ -137,6 +137,13 @@
       mods      = <RALT>;
       keep-mods = <RALT>;
     };
+
+    nav_td: nah_td {
+        compatible = "zmk,behavior-tap-dance";
+        #binding-cells = <0>;
+        tapping-term-ms = <TAPPING_TERM>;
+        bindings = <&mhsc LAYER_NAV ENTER>, <&mhsc LAYER_NUM_PAD CAPS>;
+    };
   };
 
   keymap {
@@ -149,7 +156,7 @@
         &none &tab_mir_sym &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
         &none &kp NUBS     HRM_A  HRM_S  HRM_D  HRM_F  &kp G  &kp C_VOL_DN
         &none              &kp Z  &kp X  &kp C  &kp V  &kp B
-        &none &mhsc LAYER_NUM_PAD CAPS &mhmt RALT ESC &mhmt LSFT BSPC &mhsc LAYER_MIRROR SPC &mhsc LAYER_NAV ENTER
+        &none           &none &mhmt RALT ESC &mhmt LSFT BSPC &mhsc LAYER_MIRROR SPC &nav_td
       >;
     };
 
