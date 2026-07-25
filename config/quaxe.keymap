@@ -39,9 +39,9 @@
 };
 
 / {
-    chosen {
-        zmk,physical-layout = &physical_quaxe;
-    };
+  chosen {
+    zmk,physical-layout = &physical_quaxe;
+  };
 
   behaviors {
     hrm: homerow_mods {
@@ -134,8 +134,8 @@
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
       bindings = <&kp TAB>, <&EZ_SLMH(LAYER_MIRROR)>;
-      mods      = <RALT>;
-      keep-mods = <RALT>;
+      mods      = <MOD_RALT>;
+      keep-mods = <MOD_RALT>;
     };
   };
 
