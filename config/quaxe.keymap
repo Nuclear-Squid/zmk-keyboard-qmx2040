@@ -114,6 +114,13 @@
       mods-to-hold = <0xff>;
     };
 
+    mhmo: momentary_layer_with_held_mods {
+      compatible = "zmk,behavior-mod-hold";
+      #binding-cells = <2>;
+      binding = <&mo>;
+      mods-to-hold = <0xff>;
+    };
+
     mh: raw_mod_hold {
       compatible = "zmk,behavior-mod-hold";
       #binding-cells = <2>;
@@ -148,12 +155,24 @@
       bindings = <&mo>, <&osm>;
     };
 
-    /* callum_td: callum_td { */
-    /*   compatible = "zmk,behavior-tap-dance"; */
-    /*   #binding-cells = <0>; */
-    /*   tapping-term-ms = <QUICK_TAP>; */
-    /*   bindings = <&sc_osm LAYER_CALLUM LSFT>, <&mo >; */
+    /* momod: momentary_layer_with_mods { */
     /* }; */
+
+    altgr_td: altgr_td {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <2000>;
+      bindings = <&mhmt RALT ESC>, <&mhmo LAYER_MIRROR 0>;
+      eager;
+    };
+
+    callum_td: callum_td {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <2000>;
+      bindings = <&sc_osm LAYER_CALLUM LSFT>, <&mhmo LAYER_MIRROR 0>;
+      eager;
+    };
 
     nav_td: nav_td {
       compatible = "zmk,behavior-tap-dance";
@@ -174,7 +193,8 @@
         &none &kp NUBS     &kp A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_DN
         &none              &kp Z  &kp X  &kp C  &kp V  &kp B
         /* &none           &none &mhmt RALT ESC &mhmt LSFT BSPC &mhsc LAYER_MIRROR SPC &nav_td */
-        &none           &none &mhmt RALT ESC &sc_osm LAYER_CALLUM LSFT &mhsc LAYER_MIRROR SPC &nav_td
+        /* &none           &none &mhmt RALT ESC &sc_osm LAYER_CALLUM LSFT &mhsc LAYER_MIRROR SPC &nav_td */
+        &none           &none &altgr_td &callum_td &mhsc LAYER_MIRROR SPC &nav_td
       >;
     };
 
