@@ -15,7 +15,7 @@
 #define PREV LA(LEFT)
 #define NEXT LA(RIGHT)
 
-#define EZ_SK(mod) bsk (mod) (mod)
+#define EZ_SK(mod) &bsk (mod) (mod)
 
 #define MOD_HOLD(short_name, long_name, _binding, mask) \
     short_name: long_name {                             \
@@ -45,15 +45,6 @@
   };
 
   behaviors {
-    sc: space_cadet { // same as lt, but with hold-preferred
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <SHORT_TAPPING_TERM>;
-      quick-tap-ms = <QUICK_TAP>;
-      flavor = "hold-preferred";
-      bindings = <&mo>, <&kp>;
-    };
-
     // like ZMK's sticky key (sk) but with a more robust timing
     osm: one_shot_modifier {
       compatible = "zmk,behavior-macro-one-param";
@@ -69,21 +60,42 @@
       tapping-term-ms = <TAPPING_TERM>;
       flavor = "tap-preferred";
       bindings = <&kp>, <&osm>;
+      hold-while-undecided-linger;
+      hold-while-undecided;
     };
 
-    // mod-holds
-    MOD_HOLD(mhmo,  momentary_layer_with_held_mods,     &mo,   0xff);
-    MOD_HOLD(mhmt,  mod_tap_with_held_mods,             &mt,   0xff);
-    MOD_HOLD(mhsc,  space_cadet_with_held_mods,         &sc,   0xff);
-
-    sc_osm: space_cadet_on_one_shot_mod {
+    sc: space_cadet { // same as lt, but with hold-preferred
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
       tapping-term-ms = <SHORT_TAPPING_TERM>;
       quick-tap-ms = <QUICK_TAP>;
       flavor = "hold-preferred";
-      bindings = <&mo>, <&osm>;
+      bindings = <&mo>, <&kp>;
     };
+
+    lsk: lazy_sticky_key {
+      compatible = "zmk,behavior-sticky-key";
+      #binding-cells = <1>;
+      bindings = <&kp>;
+      release-after-ms = <1000>;
+      quick-release;
+      ignore-modifiers;
+      lazy;
+    };
+
+    sc_lsk: space_cadet_on_one_shot_mod {
+      compatible = "zmk,behavior-hold-tap";
+      #binding-cells = <2>;
+      tapping-term-ms = <SHORT_TAPPING_TERM>;
+      quick-tap-ms = <QUICK_TAP>;
+      flavor = "hold-preferred";
+      bindings = <&mo>, <&lsk>;
+    };
+
+    // mod-holds
+    MOD_HOLD(mh_mo,  momentary_layer_with_held_mods,     &mo,   0xff);
+    MOD_HOLD(mh_mt,  mod_tap_with_held_mods,             &mt,   0xff);
+    MOD_HOLD(mh_sc,  space_cadet_with_held_mods,         &sc,   0xff);
 
     /* momod: momentary_layer_with_mods { */
     /* }; */
@@ -92,14 +104,14 @@
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
       tapping-term-ms = <QUICK_TAP>;
-      bindings = <&mhmt RALT ESC>, <&mhmo LAYER_MIRROR 0>;
+      bindings = <&mh_mt RALT ESC>, <&mh_mo LAYER_MIRROR 0>;
     };
 
     callum_td: callum_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <1000>;
-      bindings = <&sc_osm LAYER_CALLUM LSFT>, <&mhmo LAYER_MIRROR 0>;
+      tapping-term-ms = <200>;
+      bindings = <&sc_lsk LAYER_CALLUM LSFT>, <&mh_mo LAYER_MIRROR 0>;
       eager;
     };
 
@@ -107,7 +119,7 @@
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
       tapping-term-ms = <QUICK_TAP>;
-      bindings = <&mhsc LAYER_NAV ENTER>, <&mhsc LAYER_NUM_PAD CAPS>;
+      bindings = <&mh_sc LAYER_NAV ENTER>, <&mh_sc LAYER_NUM_PAD CAPS>;
     };
   };
 
@@ -121,18 +133,18 @@
         &none &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
         &none &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_DN
         &none           &kp Z  &kp X  &kp C  &kp V  &kp B
-        &none        &none &altgr_td &callum_td &mhsc LAYER_MIRROR SPC &nav_td
+        &none        &none &altgr_td &callum_td &mh_sc LAYER_MIRROR SPC &nav_td
       >;
     };
 
     mirror_layer: mirror_layer {
       display-name = "Mirror";
       bindings = <
-        &trans &kp MINUS    &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
-        &trans &EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp C_BRI_UP
-        &trans &kp SQT      &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp C_BRI_DN
-        &trans              &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
-        &trans                      &trans &trans &trans &trans &trans
+        &trans &kp MINUS   &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
+        &trans EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp C_BRI_UP
+        &trans &kp SQT     &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp C_BRI_DN
+        &trans             &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
+        &trans                    &trans &trans &trans &trans &trans
       >;
     };
 
@@ -161,10 +173,10 @@
     callum_mods: callum_mods {
       display-name = "callum_mods";
       bindings = <
-        &trans &trans &trans   &trans   &trans   &trans   &trans &trans
-        &trans &trans &trans   &kp TAB  &trans   &trans   &trans &trans
-        &trans &trans &sk LSFT &sk LGUI &sk LCTL &sk LALT &trans &trans
-        &trans        &trans   &trans   &trans   &kp BSPC &trans
+        &trans &trans &trans      &trans      &trans      &trans      &trans &trans
+        &trans &trans &trans      &kp TAB     &trans      &trans      &trans &trans
+        &trans &trans EZ_SK(LSFT) EZ_SK(LGUI) EZ_SK(LCTL) EZ_SK(LALT) &trans &trans
+        &trans        &trans      &trans      &trans      &kp BSPC    &trans
         &trans            &trans &trans &trans &trans &trans
       >;
     };
