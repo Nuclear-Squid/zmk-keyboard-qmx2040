@@ -116,7 +116,7 @@
       bindings = <&mh>, <&kp>;
     };
 
-    // Mod-monphs
+    // Mod-morphs
     tab_mir_sym: tab_mir_sym {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
@@ -140,15 +140,14 @@
     altgr_td: altgr_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <2000>;
+      tapping-term-ms = <QUICK_TAP>;
       bindings = <&mhmt RALT ESC>, <&mhmo LAYER_MIRROR 0>;
-      eager;
     };
 
     callum_td: callum_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <2000>;
+      tapping-term-ms = <1000>;
       bindings = <&sc_osm LAYER_CALLUM LSFT>, <&mhmo LAYER_MIRROR 0>;
       eager;
     };
