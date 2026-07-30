@@ -22,8 +22,16 @@
 #define NEXT LA(RIGHT)
 
 #define EZ_SL(layer)    bsl   (layer) (layer)
-#define EZ_SLMH(layer)  bslmh (layer) (layer)
+#define EZ_SLMH(layer)  mhbsl (layer) (layer)
 #define EZ_SK(mod)      bsk   (mod) (mod)
+
+#define MOD_HOLD(short_name, long_name, _binding, mask) \
+    short_name: long_name {                             \
+      compatible = "zmk,behavior-mod-hold";             \
+      #binding-cells = <2>;                             \
+      binding = <_binding>;                             \
+      mods-to-hold = <mask>;                            \
+    }
 
 &sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
 &sk { quick-release; };    // must-have! (lots of false positives otherwise)
@@ -93,40 +101,11 @@
     };
 
     // mod-holds
-    bslmh: better_sticky_layer_with_held_mods {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&bsl>;
-      mods-to-hold = <0xff>;  // every possible modifier
-    };
-
-    mhmt: mod_tap_with_held_mods {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&mt>;
-      mods-to-hold = <0xff>;
-    };
-
-    mhsc: space_cadet_with_held_mods {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&sc>;
-      mods-to-hold = <0xff>;
-    };
-
-    mhmo: momentary_layer_with_held_mods {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&mo>;
-      mods-to-hold = <0xff>;
-    };
-
-    mh: raw_mod_hold {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&none>;
-      mods-to-hold = <0xff>;
-    };
+    MOD_HOLD(mh,    raw_mod_hold,                       &none, 0xff);
+    MOD_HOLD(mhmo,  momentary_layer_with_held_mods,     &mo,   0xff);
+    MOD_HOLD(mhmt,  mod_tap_with_held_mods,             &mt,   0xff);
+    MOD_HOLD(mhsc,  space_cadet_with_held_mods,         &sc,   0xff);
+    MOD_HOLD(mhbsl, better_sticky_layer_with_held_mods, &bsl,  0xff);
 
     mhkp: hrm_with_raw_mh_on_hold {
       compatible = "zmk,behavior-hold-tap";
