@@ -12,18 +12,10 @@
 #define LAYER_NUM_PAD 3
 #define LAYER_CALLUM  4
 
-// Shorthands
-#define HRM_A &mhkp 0 A
-#define HRM_S &hrm LGUI S
-#define HRM_D &hrm LCTL D
-#define HRM_F &hrm LALT F
-
 #define PREV LA(LEFT)
 #define NEXT LA(RIGHT)
 
-#define EZ_SL(layer)    bsl   (layer) (layer)
-#define EZ_SLMH(layer)  mhbsl (layer) (layer)
-#define EZ_SK(mod)      bsk   (mod) (mod)
+#define EZ_SK(mod) bsk (mod) (mod)
 
 #define MOD_HOLD(short_name, long_name, _binding, mask) \
     short_name: long_name {                             \
@@ -53,14 +45,6 @@
   };
 
   behaviors {
-    hrm: homerow_mods {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <TAPPING_TERM>;
-      quick-tap-ms = <QUICK_TAP>;
-      flavor = "tap-preferred";
-      bindings = <&kp>, <&kp>;
-    };
     sc: space_cadet { // same as lt, but with hold-preferred
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
@@ -69,29 +53,16 @@
       flavor = "hold-preferred";
       bindings = <&mo>, <&kp>;
     };
-    // like ZMK's sticky layer (sl) but with a more robust timing
-    osl: one_shot_layer {
-      compatible = "zmk,behavior-macro-one-param";
-      #binding-cells = <1>;
-      tap-ms = <0>;
-      wait-ms = <0>;
-      bindings = <&macro_param_1to1>, <&macro_tap &sl MACRO_PLACEHOLDER>;
-    };
-    bsl: better_sticky_layer {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <TAPPING_TERM>;
-      flavor = "tap-preferred";
-      bindings = <&mo>, <&osl>;
-    };
+
     // like ZMK's sticky key (sk) but with a more robust timing
     osm: one_shot_modifier {
       compatible = "zmk,behavior-macro-one-param";
       #binding-cells = <1>;
       tap-ms = <0>;
       wait-ms = <0>;
-      bindings = <&macro_param_1to1>, <&macro_tap &sk MACRO_PLACEHOLDER>;
+      bindings = <&macro_tap &macro_param_1to1 &sk MACRO_PLACEHOLDER>;
     };
+
     bsk: better_sticky_key {
       compatible = "zmk,behavior-hold-tap";
       #binding-cells = <2>;
@@ -101,29 +72,9 @@
     };
 
     // mod-holds
-    MOD_HOLD(mh,    raw_mod_hold,                       &none, 0xff);
     MOD_HOLD(mhmo,  momentary_layer_with_held_mods,     &mo,   0xff);
     MOD_HOLD(mhmt,  mod_tap_with_held_mods,             &mt,   0xff);
     MOD_HOLD(mhsc,  space_cadet_with_held_mods,         &sc,   0xff);
-    MOD_HOLD(mhbsl, better_sticky_layer_with_held_mods, &bsl,  0xff);
-
-    mhkp: hrm_with_raw_mh_on_hold {
-      compatible = "zmk,behavior-hold-tap";
-      #binding-cells = <2>;
-      tapping-term-ms = <TAPPING_TERM>;
-      quick-tap-ms = <QUICK_TAP>;
-      flavor = "tap-preferred";
-      bindings = <&mh>, <&kp>;
-    };
-
-    // Mod-morphs
-    tab_mir_sym: tab_mir_sym {
-      compatible = "zmk,behavior-mod-morph";
-      #binding-cells = <0>;
-      bindings = <&kp TAB>, <&EZ_SLMH(LAYER_MIRROR)>;
-      mods      = <MOD_RALT>;
-      keep-mods = <MOD_RALT>;
-    };
 
     sc_osm: space_cadet_on_one_shot_mod {
       compatible = "zmk,behavior-hold-tap";
@@ -166,13 +117,11 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &none &kp GRAVE    &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp C_MUTE
-        &none &tab_mir_sym &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
-        &none &kp NUBS     &kp A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_DN
-        &none              &kp Z  &kp X  &kp C  &kp V  &kp B
-        /* &none           &none &mhmt RALT ESC &mhmt LSFT BSPC &mhsc LAYER_MIRROR SPC &nav_td */
-        /* &none           &none &mhmt RALT ESC &sc_osm LAYER_CALLUM LSFT &mhsc LAYER_MIRROR SPC &nav_td */
-        &none           &none &altgr_td &callum_td &mhsc LAYER_MIRROR SPC &nav_td
+        &none &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp C_MUTE
+        &none &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
+        &none &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_DN
+        &none           &kp Z  &kp X  &kp C  &kp V  &kp B
+        &none        &none &altgr_td &callum_td &mhsc LAYER_MIRROR SPC &nav_td
       >;
     };
 
