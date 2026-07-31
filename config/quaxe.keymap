@@ -124,13 +124,15 @@
       #binding-cells = <0>;
       tapping-term-ms = <QUICK_TAP>;
       bindings = <&mh_mt RALT ESC>, <&mh_mo_mod LAYER_MIRROR RALT>;
+      extended;
     };
 
     callum_td: callum_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <200>;
+      tapping-term-ms = <QUICK_TAP>;
       bindings = <&sc_lsk LAYER_CALLUM LSFT>, <&mh_mo LAYER_MIRROR 0>;
+      extended;
       eager;
     };
 
