@@ -24,11 +24,11 @@ CONFIG_PINCTRL=y
 CONFIG_GPIO_PCA_SERIES=y
 CONFIG_ZMK_KSCAN_MATRIX_POLLING=y
 
-# When typig, the right hand seems randomly stop responding after some time.
+# When typing, the right hand seems to randomly stop responding after some time.
 # We were unable to figure out a concrete cause, as there seem to be no visible
-# siiues with the I2C signals under the osciloscope.
-# We think this is some kind of race condition, and upping this timt-out
-# (originally 100ms) seems to fix the issue. Hopefully we have a better fix somt day
+# issues with the I2C signals under the osciloscope.
+# We think this is some kind of race condition, and upping this time-out
+# (originally 100ms) seems to fix the issue. Hopefully we have a better fix some day
 CONFIG_I2C_DW_RW_TIMEOUT_MS=1000
 
 # Persistent settings support (required by ZMK Studio)
