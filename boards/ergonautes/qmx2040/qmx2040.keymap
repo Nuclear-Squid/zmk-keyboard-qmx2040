@@ -7,18 +7,35 @@
 #define QUICK_TAP          200
 
 // Human-readable layer indexes
-#define LAYER_TT     1
-#define LAYER_HRM    2
-#define LAYER_NAV_TT 3
-#define LAYER_NAV    4
+#define LAYER_BASE          0
+#define LAYER_BASE_MAC      1
+#define LAYER_NO_STICKY     2
+#define LAYER_NO_STICKY_MAC 3
+#define LAYER_TT            4
+#define LAYER_TT_MAC        5
+#define LAYER_HRM           6
+#define LAYER_HRM_MAC       7
+#define LAYER_NAV_TT        8
+#define LAYER_NAV           9
+#define LAYER_CUSTOM_1     10
+#define LAYER_CUSTOM_2     11
+#define LAYER_CUSTOM_3     12
 
-// Shorthands
+// HRM Shorthands
 #define HRM_S &hrm LGUI S
 #define HRM_D &hrm LCTL D
 #define HRM_F &hrm LALT F
 #define HRM_J &hrm LALT J
 #define HRM_K &hrm LCTL K
 #define HRM_L &hrm LGUI L
+
+// HRM Shorthands (mac)
+#define MHRM_S &hrm LALT S
+#define MHRM_D &hrm LGUI D
+#define MHRM_F &hrm LCTL F
+#define MHRM_J &hrm LCTL J
+#define MHRM_K &hrm LGUI K
+#define MHRM_L &hrm LALT L
 
 #define EZ_SL(layer)    bsl   (layer) (layer)
 #define EZ_SLMH(layer)  bslmh (layer) (layer)
@@ -98,10 +115,27 @@
 
   conditional_layers {
     compatible = "zmk,conditional-layers";
+
     nav_tt {
       if-layers = <LAYER_TT LAYER_NAV>;
       then-layer = <LAYER_NAV_TT>;
     };
+
+    mac_no_sticky {
+      if-layers = <LAYER_BASE_MAC LAYER_NO_STICKY>;
+      then-layer = <LAYER_NO_STICKY_MAC>;
+    };
+
+    mac_tt {
+      if-layers = <LAYER_BASE_MAC LAYER_TT>;
+      then-layer = <LAYER_TT_MAC>;
+    };
+
+    mac_hrm {
+      if-layers = <LAYER_BASE_MAC LAYER_HRM>;
+      then-layer = <LAYER_HRM_MAC>;
+    };
+
   };
 
   keymap {
@@ -110,11 +144,44 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &mo LAYER_TT  &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN   &kp DEL   &kp N6 &kp N7 &kp N8    &kp N9  &kp N0   &kp MINUS &kp EQUAL
-        &mo LAYER_HRM &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
-        &none         &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
-        &none                   &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
-        &none            &kp LGUI &kp LALT &EZ_SK(LSFT) &kp SPC &EZ_SK(LCTL)   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &kp LALT &kp RGUI
+        &mo LAYER_TT        &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN   &kp DEL   &kp N6 &kp N7 &kp N8    &kp N9  &kp N0   &kp MINUS &kp EQUAL
+        &mo LAYER_HRM       &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
+        &mo LAYER_NO_STICKY &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
+        &mo LAYER_BASE_MAC            &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
+        &mo LAYER_CUSTOM_1     &kp LGUI &kp LALT &EZ_SK(LSFT) &kp SPC &EZ_SK(LCTL)   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &kp LALT &kp LGUI
+      >;
+    };
+
+    mac_base_layer: mac_base_layer {
+      display-name = "Base(mac)";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans   &kp LALT &kp LCTL &trans &trans &EZ_SK(LGUI)       &trans &trans &trans &kp LCTL &kp LALT
+      >;
+    };
+
+    no_sticky_layer: no_sticky_layer {
+      display-name = "NoStickyKeys";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &kp LSFT &trans &kp LCTL    &mo LAYER_NAV &trans &kp RALT &trans &trans
+      >;
+    };
+
+    mac_no_sticky_layer: mac_no_sticky_layer {
+      display-name = "NoStickyKeys";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &kp LSFT &trans &kp LGUI    &mo LAYER_NAV &trans &kp RALT &trans &trans
       >;
     };
 
@@ -129,12 +196,34 @@
       >;
     };
 
+    mac_thumb_taps_layer: mac_thumb_taps_layer {
+      display-name = "ThumbTaps";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &sc LAYER_NAV BSPC &mt LGUI TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
+      >;
+    };
+
     hrm_layer: hrm_layer {
       display-name = "HomeRowMods";
       bindings = <
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans HRM_S  HRM_D  HRM_F  &trans &trans &trans &trans HRM_J  HRM_K  HRM_L  &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+      >;
+    };
+
+    mac_hrm_layer: mac_hrm_layer {
+      display-name = "HomeRowMods";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans MHRM_S MHRM_D MHRM_F &trans &trans &trans &trans MHRM_J MHRM_K MHRM_L &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
       >;
@@ -161,5 +250,39 @@
         &trans                &trans  &trans   &trans   &trans    &trans                            &trans       &trans &trans &trans &trans
       >;
     };
+
+    custom_layer_1: custom_layer_1 {
+      display-name = "Custom1";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+      >;
+    };
+
+    custom_layer_2: custom_layer_2 {
+      display-name = "Custom2";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+      >;
+    };
+
+    custom_layer_3: custom_layer_3 {
+      display-name = "Custom3";
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+        &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
+      >;
+    };
+
   };
 };
