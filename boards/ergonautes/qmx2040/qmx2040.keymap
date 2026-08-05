@@ -111,6 +111,14 @@
       binding = <&bsl>;
       mods-to-hold = <0xff>;  // every possible modifier
     };
+
+    tt_thumb: tt_thumb {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings  = <&sc LAYER_NAV BSPC>, <&lt LAYER_NAV SPC>;
+      mods      = <MOD_RALT>;
+      keep-mods = <MOD_RALT>;
+    };
   };
 
   conditional_layers {
@@ -148,7 +156,7 @@
         &mo LAYER_HRM       &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
         &mo LAYER_NO_STICKY &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
         &mo LAYER_BASE_MAC            &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
-        &mo LAYER_CUSTOM_1     &kp LGUI &kp LALT &EZ_SK(LSFT) &kp SPC &EZ_SK(LCTL)   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &kp LALT &kp LGUI
+        &mo LAYER_CUSTOM_1     &kp RALT &kp LALT &EZ_SK(LSFT) &kp SPC &EZ_SK(LCTL)   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &kp LALT &kp LGUI
       >;
     };
 
@@ -192,7 +200,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-        &trans        &trans &trans &trans &sc LAYER_NAV BSPC &mt LCTL TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
+        &trans        &trans &trans &trans &tt_thumb &mt LCTL TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
       >;
     };
 
