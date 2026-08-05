@@ -203,8 +203,8 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-               &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-               &trans &trans &trans &tt_thumb &mt LCTL TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
+               &trans &trans &trans &trans &trans                         &trans &trans &trans &trans &trans
+        &mt LGUI PSCRN &mt LALT ESC &trans &tt_thumb &mt LCTL TAB      &mt LCTL ENTER &lt LAYER_NAV SPC &trans &mt LALT CAPS &mt LGUI DEL
           &trans  &trans  &trans  &trans  &trans
       >;
     };
