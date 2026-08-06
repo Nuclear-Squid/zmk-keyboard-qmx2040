@@ -12,7 +12,7 @@
 #define LAYER_NAV     2
 #define LAYER_NUM_PAD 3
 #define LAYER_CALLUM  4
-#define LAYER_FUNPAD  4
+#define LAYER_FUNPAD  5
 
 #define PREV LA(LEFT)
 #define NEXT LA(RIGHT)
