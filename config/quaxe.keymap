@@ -168,9 +168,9 @@
     mirror_layer: mirror_layer {
       display-name = "Mirror";
       bindings = <
-        &kp MINUS &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &trans
-        &kp LBKT  &kp P    &kp O   &kp I     &kp U  &kp Y  &trans
-        &kp SQT   &kp SEMI &kp L   &kp K     &kp J  &kp H  &trans
+        &kp MINUS &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp EQUAL
+        &kp LBKT  &kp P    &kp O   &kp I     &kp U  &kp Y  &kp RBKT
+        &kp SQT   &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp BSLH
                   &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
                          &trans &trans &trans &trans &trans
         &trans  &trans  &trans  &trans  &trans
