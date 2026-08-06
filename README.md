@@ -6,18 +6,18 @@ A Zephyr module containing the ZMK firmware for the [QMx2040].
 
 Contrary to most other ergonomic keyboards, this firmware is built to be
 entirely layout-agnostic. This means it’s fully compatible out-of-the-box with
-any european keyboard layout, without any adaptations necessary.
+any European keyboard layout, without any adaptations necessary.
 
 ## Features
 
 ### DIP-Switches
 
 Parts of the keymap can be toggled on / off by sliding one of the dip-switches.
-Going from left to right, those switches can :
+Going from left to right, those switches can:
 
 - enable thumb taps
 - enable home row mods
-- disables sticky keys
+- disable sticky keys
 - enable Mac support
 - toggle your custom layer
 
