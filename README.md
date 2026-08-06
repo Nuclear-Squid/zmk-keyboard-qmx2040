@@ -58,10 +58,12 @@ every alpha-numeric key on an ISO keyboard.
 The two most common ways of handling modifiers are thumb-taps and home row
 mods, but neither are viable here (the former is way too space-inefficient, and
 the latter is very uncomfortable when performed one-handed), which is why we
-use Callum-mods. Essencially, modifiers are available as one-shot-mods on a
+use [Callum-mods]. Essencially, modifiers are available as one-shot-mods on a
 separate layer, which makes them very safe and easy to type one-handed. A
 common downside of this approach is that they can be combersome when combined
 with layers, but with mod-holds on every thumb key, this is a very rare issue.
+
+[Callum-mods]: https://github.com/qmk/qmk_firmware/blob/user-keymaps-still-present/users/callum/readme.md#oneshot-modifiers
 
 ### Fancy Tap-Dances
 
