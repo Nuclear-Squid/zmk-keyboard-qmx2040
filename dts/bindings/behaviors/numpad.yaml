@@ -1,0 +1,5 @@
+description: Numpad behavior
+
+compatible: "zmk,behavior-numpad"
+
+include: one_param.yaml
