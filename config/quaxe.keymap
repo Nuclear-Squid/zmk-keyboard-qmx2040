@@ -12,7 +12,8 @@
 #define LAYER_NAV     2
 #define LAYER_NUM_PAD 3
 #define LAYER_CALLUM  4
-#define LAYER_FUNPAD  5
+#define LAYER_MEDIA   5
+#define LAYER_FUNPAD  6
 
 #define PREV LA(LEFT)
 #define NEXT LA(RIGHT)
@@ -117,6 +118,13 @@
     MOD_HOLD(mh_sc,     space_cadet_with_held_mods,     &sc,     0xff);
     MOD_HOLD(mh_mo_mod, held_mods_and_momentary_layer,  &mo_mod, 0xff);
 
+    media_td: media_td {
+      compatible = "zmk,behavior-tap-dance";
+      #binding-cells = <0>;
+      tapping-term-ms = <TAPPING_TERM>;
+      bindings = <&mh_mo LAYER_MEDIA 0>, <&mh_mo LAYER_FUNPAD 0>;
+    };
+
     altgr_td: altgr_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
@@ -152,7 +160,7 @@
         &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp BACKSPACE
         &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ENTER
                   &kp Z  &kp X  &kp C  &kp V  &kp B
-        &mo LAYER_FUNPAD &altgr_td &callum_td &mh_sc LAYER_MIRROR SPC &nav_td
+        &media_td &altgr_td &callum_td &mh_sc LAYER_MIRROR SPC &nav_td
         &none  &none  &none  &none  &none
       >;
     };
@@ -160,11 +168,11 @@
     mirror_layer: mirror_layer {
       display-name = "Mirror";
       bindings = <
-        &kp MINUS   &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &kp DEL
-        EZ_SK(LSFT) &kp P    &kp O   &kp I     &kp U  &kp Y  &kp C_BRI_UP
-        &kp SQT     &kp SEMI &kp L   &kp K     &kp J  &kp H  &kp C_BRI_DN
-                    &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
-                           &trans &trans &trans &trans &trans
+        &kp MINUS &kp N0   &kp N9  &kp N8    &kp N7 &kp N6 &trans
+        &kp LBKT  &kp P    &kp O   &kp I     &kp U  &kp Y  &trans
+        &kp SQT   &kp SEMI &kp L   &kp K     &kp J  &kp H  &trans
+                  &kp FSLH &kp DOT &kp COMMA &kp M  &kp N
+                         &trans &trans &trans &trans &trans
         &trans  &trans  &trans  &trans  &trans
       >;
     };
@@ -172,9 +180,9 @@
     navigation_layer: navigation_layer {
       display-name = "Navigation";
       bindings = <
-        &trans         &kp F1   &kp F2   &kp F3   &kp F4    &kp F5    &kp C_PP
-        &studio_unlock &kp NEXT &kp HOME &kp UP   &kp END   &kp PG_UP &kp C_NEXT
-        &trans         &kp PREV &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &kp C_PREV
+        &trans         &kp F1   &kp F2   &kp F3   &kp F4    &kp F5    &trans
+        &studio_unlock &kp NEXT &kp HOME &kp UP   &kp END   &kp PG_UP &trans
+        &trans         &kp PREV &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &trans
                        &trans   &trans   &trans   &trans    &trans
                        &trans   &trans   &trans   &trans    &trans
         &trans  &trans  &trans  &trans  &trans
@@ -205,8 +213,20 @@
       >;
     };
 
+    media_layer: media_layer {
+      display-name = "media";
+      bindings = <
+        &trans  &trans     &trans         &trans        &trans     &trans &trans
+        &trans  &kp SLCK   &kp C_BRI_UP   &kp C_VOL_UP  &kp C_PREV &trans &trans
+        &trans  &kp PSCRN  &kp C_AL_LOCK  &kp C_MUTE    &kp C_PP   &trans &trans
+                &kp INS    &kp C_BRI_DN   &kp C_VOL_DN  &kp C_NEXT &trans
+                   &trans &trans &trans &trans &trans
+        &trans  &trans  &trans  &trans  &trans
+      >;
+    };
+
     funpad_layer: funpad_layer {
-      display-name = "empty";
+      display-name = "funpad";
       bindings = <
         &trans &trans  &trans  &trans  &trans &trans &trans
         &trans &kp F1  &kp F2  &kp F3  &kp F4 &trans &trans
