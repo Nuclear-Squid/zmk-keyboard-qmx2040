@@ -76,7 +76,7 @@ of ZMK][fork], which spices up tap-dances with a couple of new features:
 - fixes a bug where nested hold taps weren’t interrupted by other key presses
   properly (though with a regression on tap-dances nested in combos)
 - adds a feature to allow processing each binding immediatly, instead of
-  waiting for the tapping-term (which is used to carry a one-shot-shift into
+  waiting for the tapping term (which is used to carry a one-shot-shift into
   mirror for efficient typing)
 - adds a feature to allow continuing a tap-dance if you press it again quickly
   after releasing it, no matter how long the key was held for (used to cycle
