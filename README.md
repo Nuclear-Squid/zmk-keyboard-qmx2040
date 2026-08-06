@@ -38,7 +38,7 @@ will be automatically forced on if it wasn’t already.
 
 The Quaxe is a variant of the QMx2040 where you split the board and only keep
 the left hand. It comes with its own one-handed keymap. It’s particularily
-adequate for intensive setups with heavy mouse usage (like when using CAD or
+adequate for setups with heavy mouse usage (like when using CAD or
 graphic-design software), or if you just hurt your right hand and need to let
 it rest (which is how I’m typing this doc btw).
 
