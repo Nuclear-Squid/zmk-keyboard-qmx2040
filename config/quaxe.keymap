@@ -5,7 +5,7 @@
 #define TAPPING_TERM       300
 #define SHORT_TAPPING_TERM 150
 #define QUICK_TAP          200
-#define EXTENDED_TAP       150
+#define EXTENDED_TAP       250
 
 // Human-readable layer indexes
 #define LAYER_MIRROR  1
@@ -128,7 +128,7 @@
     altgr_td: altgr_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <QUICK_TAP>;
+      tapping-term-ms = <TAPPING_TERM>;
       post-tapping-term-ms = <EXTENDED_TAP>;
       bindings = <&mh_mt RALT ESC>, <&mh_mo_mod LAYER_MIRROR RALT>;
     };
@@ -136,7 +136,7 @@
     callum_td: callum_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <QUICK_TAP>;
+      tapping-term-ms = <TAPPING_TERM>;
       post-tapping-term-ms = <EXTENDED_TAP>;
       bindings = <&sc_lsk LAYER_CALLUM LSFT>, <&mh_mo LAYER_MIRROR 0>;
       eager;
@@ -145,7 +145,7 @@
     nav_td: nav_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
-      tapping-term-ms = <QUICK_TAP>;
+      tapping-term-ms = <TAPPING_TERM>;
       bindings = <&mh_sc LAYER_NAV ENTER>, <&mh_sc LAYER_NUM_PAD CAPS>;
     };
   };
