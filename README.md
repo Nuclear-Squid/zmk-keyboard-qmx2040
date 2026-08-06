@@ -37,17 +37,17 @@ will be automatically forced on if it wasn’t already.
 ## Quaxe
 
 The Quaxe is a variant of the QMx2040 where you split the board and only keep
-the left hand. It comes with it’s own one-handed keymap. It’s particularily
+the left hand. It comes with its own one-handed keymap. It’s particularily
 adequate for intensive setups with heavy mouse usage (like when using CAD or
 graphic-design software), or if you just hurt your right hand and need to let
 it rest (which is how I’m typing this doc btw).
 
-Along with making *heavy use* of the `mod-hold` behavior, it has it’s own set
+Along with making *heavy use* of the `mod-hold` behavior, it has its own set
 of features:
 
 ### Mirror Layer
 
-This is the corner-stone of this whole keymap. Holding the space key will
+This is the corner stone of the whole keymap. Holding the space key will
 activate a layer where every key on the right hand are mirrored onto the left
 hand (i.e., you get LKJ instead of SDF, assuming you use a Qwerty/Azerty
 keyboard). Using this, in tandem with the next feature, you have access to
