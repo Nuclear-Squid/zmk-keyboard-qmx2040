@@ -180,7 +180,7 @@
     navigation_layer: navigation_layer {
       display-name = "Navigation";
       bindings = <
-        &trans         &kp F1   &kp F2   &kp F3   &kp F4    &kp F5    &trans
+        &trans         &trans   &trans   &trans   &trans    &trans    &trans
         &studio_unlock &kp NEXT &kp HOME &kp UP   &kp END   &kp PG_UP &trans
         &trans         &kp PREV &kp LEFT &kp DOWN &kp RIGHT &kp PG_DN &trans
                        &trans   &trans   &trans   &trans    &trans
@@ -192,11 +192,11 @@
     num_pad_layer: num_pad_layer {
       display-name = "NumPad";
       bindings = <
-        &kp F11      &kp F10      &kp F9    &kp F8    &kp F7    &kp F6       &trans
-        &kp C_BRI_UP &kp KP_SLASH &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_NUM   &trans
-        &kp C_BRI_DN &kp KP_N0    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MINUS &trans
-                     &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &trans
-                     &trans       &trans    &trans    &trans    &trans
+        &trans &trans       &trans    &trans    &trans    &trans       &trans
+        &trans &kp KP_SLASH &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_NUM   &trans
+        &trans &kp KP_N0    &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_MINUS &trans
+               &kp KP_DOT   &kp KP_N1 &kp KP_N2 &kp KP_N3 &trans
+               &trans       &trans    &trans    &trans    &trans
         &trans  &trans  &trans  &trans  &trans
       >;
     };
@@ -205,7 +205,7 @@
       display-name = "callum_mods";
       bindings = <
         &trans &trans      &trans      &trans      &trans      &trans &trans
-        &trans &trans      &kp TAB     &trans      &trans      &trans &trans
+        &trans &trans      &kp TAB     &kp ENTER   &trans      &trans &trans
         &trans EZ_SK(LSFT) EZ_SK(LGUI) EZ_SK(LCTL) EZ_SK(LALT) &trans &trans
                &trans      &trans      &trans      &kp BSPC    &trans
                    &trans &trans &trans &trans &trans
@@ -228,9 +228,9 @@
     funpad_layer: funpad_layer {
       display-name = "funpad";
       bindings = <
-        &trans &trans  &trans  &trans  &trans &trans &trans
-        &trans &kp F1  &kp F2  &kp F3  &kp F4 &trans &trans
-        &trans &kp F5  &kp F6  &kp F7  &kp F8 &trans &trans
+        &trans &trans  &trans  &trans  &trans  &trans &trans
+        &trans &kp F1  &kp F2  &kp F3  &kp F4  &trans &trans
+        &trans &kp F5  &kp F6  &kp F7  &kp F8  &trans &trans
                &kp F9  &kp F10 &kp F11 &kp F12 &trans
                    &trans &trans &trans &trans &trans
         &trans  &trans  &trans  &trans  &trans
