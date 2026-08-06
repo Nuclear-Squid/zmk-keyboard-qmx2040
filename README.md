@@ -2,7 +2,7 @@
 
 A Zephyr module containing the ZMK firmware for the [QMx2040] and the Quaxe.
 
-[QMx2040]; https://onedeadkey.github.io/qmx2040/
+[QMx2040]: https://onedeadkey.github.io/qmx2040/
 
 Contrary to most other ergonomic keyboards, this firmware is built to be
 entirely layout-agnostic. This means it’s fully compatible out-of-the-box with
