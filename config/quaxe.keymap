@@ -148,9 +148,9 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp C_MUTE
-        &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp C_VOL_UP
-        &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp C_VOL_DN
+        &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp DEL
+        &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp BACKSPACE
+        &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ENTER
                   &kp Z  &kp X  &kp C  &kp V  &kp B
         &mo LAYER_FUNPAD &altgr_td &callum_td &mh_sc LAYER_MIRROR SPC &nav_td
         &none  &none  &none  &none  &none
