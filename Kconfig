@@ -7,4 +7,5 @@ config ZMK_BEHAVIOR_NUMPAD
   bool
   default y
   depends on DT_HAS_ZMK_BEHAVIOR_NUMPAD_ENABLED
-  select ZMK_HID_INDICATORS
+  select ZMK_HID_INDICATORS  # Needed by the behavior to be able
+                             # to poll the state of numlock
