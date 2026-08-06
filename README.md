@@ -49,7 +49,7 @@ of features:
 
 This is the corner stone of the whole keymap. Holding the space key will
 activate a layer where every key on the right hand are mirrored onto the left
-hand (i.e., you get LKJ instead of SDF, assuming you use a Qwerty/Azerty
+hand (i.e., you get LKJ instead of SDF, assuming you use a Qwerty/Qwertz/Azerty
 keyboard). Using this, in tandem with the next feature, you have access to
 every alpha-numeric key on an ISO keyboard.
 
