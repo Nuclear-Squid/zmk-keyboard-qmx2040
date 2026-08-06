@@ -70,8 +70,8 @@ the quaxe makes heavy use of tap-dances. Most thumb keys also act as a mirror
 when tap-and-held, which is how you get access to the numpad or AltGr with
 keys on the right hand.
 
-However these aren’t regular tap-dances, as this keymap depends on a [fork
-of ZMK][fork], which spices up tap-dances with a couple of new features:
+However these aren’t regular tap-dances, as this keymap depends on a [ZMK
+fork][fork], which spices up tap-dances with a couple of new features:
 
 - fixes a bug where nested hold taps weren’t interrupted by other key presses
   properly (though with a regression on tap-dances nested in combos)
@@ -84,3 +84,5 @@ of ZMK][fork], which spices up tap-dances with a couple of new features:
 
 Hopefully, these features will one day make it into upstream ZMK, once they are
 sufficiently polished.
+
+[fork]: https://github.com/nuclear-Squid/zmk
