@@ -1,13 +1,13 @@
 manifest:
   remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
+    - name: Nuclear-Squid
+      url-base: https://github.com/Nuclear-Squid
   projects:
+    # We use my personal fork of the project as it has a couple patches that
+    # aren’t yet merged upstream that we rely on
     - name: zmk
-      remote: zmkfirmware
-      # pin zmk commit, this is the tip of the `main` branch on 2026-03-30
-      # see https://github.com/Nuclear-Squid/zmk-keyboard-quacken/pull/49#issuecomment-4153385353
-      revision: c62da0e16646d10240ba29191bdbcb5611b3a1af
+      remote: Nuclear-Squid
+      revision: fancy_tap_dances
       import: app/west.yml
   self:
     path: config
