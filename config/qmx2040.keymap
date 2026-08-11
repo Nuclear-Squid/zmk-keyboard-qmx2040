@@ -1,6 +1,9 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+#include <dt-bindings/zmk/oskey.h>
+#include <behaviors/oskey.dtsi>
+
 // Timing is key
 #define TAPPING_TERM       300
 #define SHORT_TAPPING_TERM 150
@@ -8,18 +11,14 @@
 
 // Human-readable layer indexes
 #define LAYER_BASE          0
-#define LAYER_BASE_MAC      1
-#define LAYER_NO_STICKY     2
-#define LAYER_NO_STICKY_MAC 3
-#define LAYER_TT            4
-#define LAYER_TT_MAC        5
-#define LAYER_HRM           6
-#define LAYER_HRM_MAC       7
-#define LAYER_NAV_TT        8
-#define LAYER_NAV           9
-#define LAYER_CUSTOM_1     10
-#define LAYER_CUSTOM_2     11
-#define LAYER_CUSTOM_3     12
+#define LAYER_NO_STICKY     1
+#define LAYER_TT            2
+#define LAYER_HRM           3
+#define LAYER_NAV_TT        4
+#define LAYER_NAV           5
+#define LAYER_CUSTOM_1      6
+#define LAYER_CUSTOM_2      7
+#define LAYER_CUSTOM_3      8
 
 // HRM Shorthands
 #define HRM_S &hrm LGUI S
@@ -40,6 +39,15 @@
 #define EZ_SL(layer)    bsl   (layer) (layer)
 #define EZ_SLMH(layer)  bslmh (layer) (layer)
 #define EZ_SK(mod)      bsk   (mod) (mod)
+
+#define MAC_MORPH(name, base_binding, mac_binding)              \
+    name: name {                                                \
+      compatible = "zmk,behavior-os-key";                       \
+      #binding-cells = <0>;                                     \
+      /*               Win            Mac             Lin  */   \
+      bindings = <base_binding>, <mac_binding>, <base_binding>; \
+    };
+
 
 &sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
 &sk { quick-release; };    // must-have! (lots of false positives otherwise)
@@ -124,31 +132,39 @@
       compatible = "zmk,behavior-numpad";
       #binding-cells = <1>;
     };
+
+    MAC_MORPH(base_gui,  &kp LGUI,       &kp LALT)
+    MAC_MORPH(base_alt,  &kp LALT,       &kp LCTL)
+    MAC_MORPH(base_ctl,  &EZ_SK(LCTL),   &EZ_SK(LGUI))
+
+    MAC_MORPH(no_sk_ctl, &kp LCTL,       &kp LGUI)
+
+    MAC_MORPH(tt_gui_l,  &mt LGUI PSCRN, &mt LALT PSCRN)
+    MAC_MORPH(tt_alt_l,  &mt LALT ESC,   &mt LCTL ESC)
+    MAC_MORPH(tt_ctl_l,  &mt LCTL TAB,   &mt LGUI TAB)
+    MAC_MORPH(tt_ctl_r,  &mt LCTL ENTER, &mt LGUI ENTER)
+    MAC_MORPH(tt_alt_r,  &mt LALT CAPS,  &mt LCTL CAPS)
+    MAC_MORPH(tt_gui_r,  &mt LGUI DEL,   &mt LALT DEL)
+
+    MAC_MORPH(hrm_s,     &hrm LGUI S,    &hrm LALT S)
+    MAC_MORPH(hrm_d,     &hrm LCTL D,    &hrm LGUI D)
+    MAC_MORPH(hrm_f,     &hrm LALT F,    &hrm LCTL F)
+    MAC_MORPH(hrm_j,     &hrm LALT J,    &hrm LCTL J)
+    MAC_MORPH(hrm_k,     &hrm LCTL K,    &hrm LGUI K)
+    MAC_MORPH(hrm_l,     &hrm LGUI L,    &hrm LALT L)
+
+    os_sel: os_selector {
+      compatible = "zmk,behavior-os-selector";
+      #binding-cells = <1>;
+    };
   };
 
   conditional_layers {
     compatible = "zmk,conditional-layers";
-
     nav_tt {
       if-layers = <LAYER_TT LAYER_NAV>;
       then-layer = <LAYER_NAV_TT>;
     };
-
-    mac_no_sticky {
-      if-layers = <LAYER_BASE_MAC LAYER_NO_STICKY>;
-      then-layer = <LAYER_NO_STICKY_MAC>;
-    };
-
-    mac_tt {
-      if-layers = <LAYER_BASE_MAC LAYER_TT>;
-      then-layer = <LAYER_TT_MAC>;
-    };
-
-    mac_hrm {
-      if-layers = <LAYER_BASE_MAC LAYER_HRM>;
-      then-layer = <LAYER_HRM_MAC>;
-    };
-
   };
 
   keymap {
@@ -157,24 +173,12 @@
     base_layer: base_layer {
       display-name = "Base";
       bindings = <
-        &kp GRAVE &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN   &kp DEL   &kp N6 &kp N7 &kp N8    &kp N9  &kp N0   &kp MINUS &kp EQUAL
+        &os_sel OS_MAC  &os_sel OS_LIN &kp N2 &kp N3 &kp N4 &kp N5 &kp PSCRN   &kp DEL   &kp N6 &kp N7 &kp N8    &kp N9  &kp N0   &kp MINUS &kp EQUAL
         &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
         &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
                   &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
-           &kp LGUI &kp LALT &EZ_SK(LSFT) &kp SPC &EZ_SK(LCTL)   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &kp LALT &kp LGUI
-           &mo LAYER_TT  &mo LAYER_HRM  &mo LAYER_NO_STICKY  &mo LAYER_BASE_MAC  &mo LAYER_CUSTOM_1
-      >;
-    };
-
-    mac_base_layer: mac_base_layer {
-      display-name = "Base(mac)";
-      bindings = <
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-               &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-          &kp LALT &kp LCTL &trans &trans &EZ_SK(LGUI)       &trans &trans &trans &kp LCTL &kp LALT
-          &trans  &trans  &trans  &trans  &trans
+           &base_gui &base_alt &EZ_SK(LSFT) &kp SPC &base_ctl   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &base_alt &base_gui
+           &mo LAYER_TT  &mo LAYER_HRM  &mo LAYER_NO_STICKY  &none  &mo LAYER_CUSTOM_1
       >;
     };
 
@@ -185,19 +189,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
                &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-               &trans &trans &kp LSFT &trans &kp LCTL    &mo LAYER_NAV &trans &kp RALT &trans &trans
-          &trans  &trans  &trans  &trans  &trans
-      >;
-    };
-
-    mac_no_sticky_layer: mac_no_sticky_layer {
-      display-name = "NoStickyKeys";
-      bindings = <
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-               &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-               &trans &trans &kp LSFT &trans &kp LGUI    &mo LAYER_NAV &trans &kp RALT &trans &trans
+               &trans &trans &kp LSFT &trans &no_sk_ctl    &mo LAYER_NAV &trans &kp RALT &trans &trans
           &trans  &trans  &trans  &trans  &trans
       >;
     };
@@ -209,19 +201,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
                &trans &trans &trans &trans &trans                         &trans &trans &trans &trans &trans
-        &mt LGUI PSCRN &mt LALT ESC &trans &tt_thumb &mt LCTL TAB      &mt LCTL ENTER &lt LAYER_NAV SPC &trans &mt LALT CAPS &mt LGUI DEL
-          &trans  &trans  &trans  &trans  &trans
-      >;
-    };
-
-    mac_thumb_taps_layer: mac_thumb_taps_layer {
-      display-name = "ThumbTaps";
-      bindings = <
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-               &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-               &trans &trans &trans &sc LAYER_NAV BSPC &mt LGUI TAB         &mt LCTL ENTER &lt LAYER_NAV SPC &trans &trans &trans
+        &tt_gui_l &tt_alt_l &trans &tt_thumb &tt_ctl_l      &tt_ctl_r &lt LAYER_NAV SPC &trans &tt_alt_r &tt_gui_r
           &trans  &trans  &trans  &trans  &trans
       >;
     };
@@ -231,19 +211,7 @@
       bindings = <
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans HRM_S  HRM_D  HRM_F  &trans &trans &trans &trans HRM_J  HRM_K  HRM_L  &trans &trans &trans
-               &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-               &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-          &trans  &trans  &trans  &trans  &trans
-      >;
-    };
-
-    mac_hrm_layer: mac_hrm_layer {
-      display-name = "HomeRowMods";
-      bindings = <
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-        &trans &trans MHRM_S MHRM_D MHRM_F &trans &trans &trans &trans MHRM_J MHRM_K MHRM_L &trans &trans &trans
+        &trans &trans &hrm_s &hrm_d &hrm_f &trans &trans &trans &trans &hrm_j &hrm_k &hrm_l &trans &trans &trans
                &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
                &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
           &trans  &trans  &trans  &trans  &trans

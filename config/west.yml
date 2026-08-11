@@ -2,6 +2,8 @@ manifest:
   remotes:
     - name: Nuclear-Squid
       url-base: https://github.com/Nuclear-Squid
+    - name: mentaldesk
+      url-base: https://github.com/mentaldesk
   projects:
     # We use my personal fork of the project as it has a couple patches that
     # aren’t yet merged upstream that we rely on
@@ -9,5 +11,8 @@ manifest:
       remote: Nuclear-Squid
       revision: fancy_tap_dances
       import: app/west.yml
+    - name: oskey
+      remote: mentaldesk
+      revision: main
   self:
     path: config
