@@ -13,6 +13,6 @@ manifest:
       import: app/west.yml
     - name: oskey
       remote: mentaldesk
-      revision: main
+      revision: 78658510090f60a63cbaf551145c66ad722d2980
   self:
     path: config
