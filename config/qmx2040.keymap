@@ -40,14 +40,13 @@
 #define EZ_SLMH(layer)  bslmh (layer) (layer)
 #define EZ_SK(mod)      bsk   (mod) (mod)
 
-#define MAC_MORPH(name, base_binding, mac_binding)              \
-    name: name {                                                \
-      compatible = "zmk,behavior-os-key";                       \
-      #binding-cells = <0>;                                     \
-      /*               Win            Mac             Lin  */   \
-      bindings = <base_binding>, <mac_binding>, <base_binding>; \
-    };
-
+#define MAC_MORPH(name, base_binding, mac_binding)            \
+  name: name {                                                \
+    compatible = "zmk,behavior-os-key";                       \
+    #binding-cells = <0>;                                     \
+    /*               Win            Mac             Lin  */   \
+    bindings = <base_binding>, <mac_binding>, <base_binding>; \
+  };
 
 &sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
 &sk { quick-release; };    // must-have! (lots of false positives otherwise)
