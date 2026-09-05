@@ -149,7 +149,7 @@
     MAC_MORPH(tt_alt_l,  &mt LALT ESC,   &mt LCTL ESC)
     MAC_MORPH(tt_ctl_l,  &mt LCTL TAB,   &mt LGUI TAB)
     MAC_MORPH(tt_ctl_r,  &mt LCTL ENTER, &mt LGUI ENTER)
-    MAC_MORPH(tt_alt_r,  &mt LALT CAPS,  &mt LCTL PSCRN)
+    MAC_MORPH(tt_alt_r,  &mt LALT PSCRN, &mt LCTL PSCRN)
 
     MAC_MORPH(hrm_s,     &hrm LGUI S,    &hrm LALT S)
     MAC_MORPH(hrm_d,     &hrm LCTL D,    &hrm LGUI D)
