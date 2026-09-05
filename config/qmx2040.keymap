@@ -132,18 +132,24 @@
       #binding-cells = <1>;
     };
 
+    bsk_shift: bsk_shift {
+      compatible = "zmk,behavior-mod-morph";
+      #binding-cells = <0>;
+      bindings  = <&EZ_SK(LSFT)>, <&kp CAPSLOCK>;
+      mods      = <MOD_RALT>;
+      keep-mods = <MOD_RALT>;
+    };
+
     MAC_MORPH(base_gui,  &kp LGUI,       &kp LALT)
     MAC_MORPH(base_alt,  &kp LALT,       &kp LCTL)
     MAC_MORPH(base_ctl,  &EZ_SK(LCTL),   &EZ_SK(LGUI))
 
     MAC_MORPH(no_sk_ctl, &kp LCTL,       &kp LGUI)
 
-    MAC_MORPH(tt_gui_l,  &mt LGUI PSCRN, &mt LALT PSCRN)
     MAC_MORPH(tt_alt_l,  &mt LALT ESC,   &mt LCTL ESC)
     MAC_MORPH(tt_ctl_l,  &mt LCTL TAB,   &mt LGUI TAB)
     MAC_MORPH(tt_ctl_r,  &mt LCTL ENTER, &mt LGUI ENTER)
-    MAC_MORPH(tt_alt_r,  &mt LALT CAPS,  &mt LCTL CAPS)
-    MAC_MORPH(tt_gui_r,  &mt LGUI DEL,   &mt LALT DEL)
+    MAC_MORPH(tt_alt_r,  &mt LALT CAPS,  &mt LCTL PSCRN)
 
     MAC_MORPH(hrm_s,     &hrm LGUI S,    &hrm LALT S)
     MAC_MORPH(hrm_d,     &hrm LCTL D,    &hrm LGUI D)
@@ -189,7 +195,7 @@
         &kp TAB   &kp Q  &kp W  &kp E  &kp R  &kp T  &kp CAPS    &kp BSPC  &kp Y  &kp U  &kp I     &kp O   &kp P    &kp LBKT  &kp RBKT
         &kp NUBS  &kp A  &kp S  &kp D  &kp F  &kp G  &kp ESC     &kp ENTER &kp H  &kp J  &kp K     &kp L   &kp SEMI &kp SQT   &kp BSLH
                   &kp Z  &kp X  &kp C  &kp V  &kp B                        &kp N  &kp M  &kp COMMA &kp DOT &kp FSLH
-           &base_gui &base_alt &EZ_SK(LSFT) &kp SPC &base_ctl   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &base_alt &base_gui
+              &base_gui &base_alt &bsk_shift &kp SPC &base_ctl   &EZ_SLMH(LAYER_NAV) &kp SPC &EZ_SK(RALT) &base_alt &base_gui
            &mo LAYER_TT  &mo LAYER_HRM  &mo LAYER_NO_STICKY  &mac_dip  &mo LAYER_CUSTOM_1
       >;
     };
@@ -213,7 +219,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
                &trans &trans &trans &trans &trans                         &trans &trans &trans &trans &trans
-        &tt_gui_l &tt_alt_l &trans &tt_thumb &tt_ctl_l      &tt_ctl_r &lt LAYER_NAV SPC &trans &tt_alt_r &tt_gui_r
+           &trans &tt_alt_l &trans &tt_thumb &tt_ctl_l      &tt_ctl_r &lt LAYER_NAV SPC &trans &tt_alt_r &trans
           &trans  &trans  &trans  &trans  &trans
       >;
     };
