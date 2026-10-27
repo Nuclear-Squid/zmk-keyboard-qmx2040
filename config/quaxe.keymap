@@ -1,5 +1,9 @@
+// Standard ZMK headers
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+
+// Community module headers
+#include <behaviors/mod-hold.dtsi> // Provides helper macros for the mod-hold behavior
 
 // Timing is key
 #define TAPPING_TERM       300
@@ -20,14 +24,6 @@
 #define NEXT LA(RIGHT)
 
 #define EZ_SK(mod) &bsk (mod) (mod)
-
-#define MOD_HOLD(short_name, long_name, _binding, mask) \
-    short_name: long_name {                             \
-      compatible = "zmk,behavior-mod-hold";             \
-      #binding-cells = <2>;                             \
-      binding = <_binding>;                             \
-      mods-to-hold = <mask>;                            \
-    }
 
 &sl { ignore-modifiers; }; // keep one-shot-mods when chained into a one-shot-layer
 &sk { quick-release; };    // must-have! (lots of false positives otherwise)
@@ -114,16 +110,16 @@
     };
 
     // mod-holds
-    MOD_HOLD(mh_mo,     momentary_layer_with_held_mods, &mo,     0xff);
-    MOD_HOLD(mh_mt,     mod_tap_with_held_mods,         &mt,     0xff);
-    MOD_HOLD(mh_sc,     space_cadet_with_held_mods,     &sc,     0xff);
-    MOD_HOLD(mh_mo_mod, held_mods_and_momentary_layer,  &mo_mod, 0xff);
+    MOD_HOLD_1(mh_mo,     &mo,     0xff)
+    MOD_HOLD_2(mh_mt,     &mt,     0xff)
+    MOD_HOLD_2(mh_sc,     &sc,     0xff)
+    MOD_HOLD_2(mh_mo_mod, &mo_mod, 0xff)
 
     media_td: media_td {
       compatible = "zmk,behavior-tap-dance";
       #binding-cells = <0>;
       tapping-term-ms = <TAP_DANCE_TERM>;
-      bindings = <&mh_mo LAYER_MEDIA 0>, <&mh_mo LAYER_FUNPAD 0>;
+      bindings = <&mh_mo LAYER_MEDIA>, <&mh_mo LAYER_FUNPAD>;
     };
 
     altgr_td: altgr_td {
@@ -139,7 +135,7 @@
       #binding-cells = <0>;
       tapping-term-ms = <TAP_DANCE_TERM>;
       post-tapping-term-ms = <EXTENDED_TAP_TERM>;
-      bindings = <&sc_lsk LAYER_CALLUM LSFT>, <&mh_mo LAYER_MIRROR 0>;
+      bindings = <&sc_lsk LAYER_CALLUM LSFT>, <&mh_mo LAYER_MIRROR>;
       eager;
     };
 

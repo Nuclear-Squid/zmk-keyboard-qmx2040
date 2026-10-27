@@ -11,6 +11,9 @@ manifest:
       remote: Nuclear-Squid
       revision: fancy_tap_dances
       import: app/west.yml
+    - name: zmk-behavior-mod-hold
+      remote: Nuclear-Squid
+      revision: aekeynox
     - name: oskey
       remote: mentaldesk
       revision: 78658510090f60a63cbaf551145c66ad722d2980
