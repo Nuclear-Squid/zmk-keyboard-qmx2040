@@ -117,7 +117,7 @@
     tt_thumb: tt_thumb {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
-      bindings  = <&sc LAYER_NAV BSPC>, <&lt LAYER_NAV SPC>;
+      bindings  = <&mhsc LAYER_NAV BSPC>, <&mhlt LAYER_NAV SPC>;
       mods      = <MOD_RALT>;
       keep-mods = <MOD_RALT>;
     };
@@ -135,6 +135,9 @@
       keep-mods = <MOD_RALT>;
     };
 
+    MOD_HOLD_1(mhmo,  &mo,  0xff)
+    MOD_HOLD_2(mhlt,  &lt,  0xff)
+    MOD_HOLD_2(mhsc,  &sc,  0xff)
     MOD_HOLD_2(mhbsl, &bsl, 0xff)
 
     MAC_MORPH(base_gui,  &kp LGUI,       &kp LALT)
@@ -204,7 +207,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
                &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans
-               &trans &trans &kp LSFT &trans &no_sk_ctl    &mo LAYER_NAV &trans &kp RALT &trans &trans
+               &trans &trans &kp LSFT &trans &no_sk_ctl    &mhmo LAYER_NAV &trans &kp RALT &trans &trans
           &trans  &trans  &trans  &trans  &trans
       >;
     };
@@ -216,7 +219,7 @@
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
         &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
                &trans &trans &trans &trans &trans                         &trans &trans &trans &trans &trans
-           &trans &tt_alt_l &trans &tt_thumb &tt_ctl_l      &tt_ctl_r &lt LAYER_NAV SPC &trans &tt_alt_r &trans
+           &trans &tt_alt_l &trans &tt_thumb &tt_ctl_l      &tt_ctl_r &mhlt LAYER_NAV SPC &trans &tt_alt_r &trans
           &trans  &trans  &trans  &trans  &trans
       >;
     };
