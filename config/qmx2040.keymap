@@ -1,6 +1,9 @@
+// Standard ZMK headers
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
 
+// Community module headers
+#include <behaviors/mod-hold.dtsi> // Provides helper macros for the mod-hold behavior
 #include <dt-bindings/zmk/oskey.h>
 #include <behaviors/oskey.dtsi>
 
@@ -37,7 +40,7 @@
 #define MHRM_L &hrm LALT L
 
 #define EZ_SL(layer)    bsl   (layer) (layer)
-#define EZ_SLMH(layer)  bslmh (layer) (layer)
+#define EZ_SLMH(layer)  mhbsl (layer) (layer)
 #define EZ_SK(mod)      bsk   (mod) (mod)
 
 #define MAC_MORPH(name, base_binding, mac_binding)            \
@@ -111,14 +114,6 @@
       bindings = <&kp>, <&osm>;
     };
 
-    // mod-holds
-    bslmh: better_sticky_layer_with_held_mods {
-      compatible = "zmk,behavior-mod-hold";
-      #binding-cells = <2>;
-      binding = <&bsl>;
-      mods-to-hold = <0xff>;  // every possible modifier
-    };
-
     tt_thumb: tt_thumb {
       compatible = "zmk,behavior-mod-morph";
       #binding-cells = <0>;
@@ -139,6 +134,8 @@
       mods      = <MOD_RALT>;
       keep-mods = <MOD_RALT>;
     };
+
+    MOD_HOLD_2(mhbsl, &bsl, 0xff)
 
     MAC_MORPH(base_gui,  &kp LGUI,       &kp LALT)
     MAC_MORPH(base_alt,  &kp LALT,       &kp LCTL)
