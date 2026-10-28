@@ -1,6 +1,7 @@
 // Standard ZMK headers
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
 
 // Community module headers
 #include <behaviors/mod-hold.dtsi> // Provides helper macros for the mod-hold behavior
