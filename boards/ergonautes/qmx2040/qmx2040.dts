@@ -42,6 +42,21 @@
         };
     };
 
+
+    // The matrix scan is "inverted", meaning we check for a low-state and
+    // assert the "wrong" end of the diode (the PCB has a "col2row" pinout).
+    // This is done to reduce the amount of iterations needed by the firmware
+    // to poll the state of the keys, since while getting the state of every
+    // input can be done in one significant operation, asserting the outputs
+    // has to be done individually.
+    //
+    // While the performance gains for the left hand (directly asserted and
+    // read by the MCU) are marginal, this significantly reduces the amount of
+    // I2C transactions needed to poll the right hand (since we assert 5 pins
+    // instead of 8), which equates to about a 40% speedup. This performance
+    // boost is crutial to stay within real-time constraints when polling the
+    // io-expander at a 100 kbps bit-rate
+
     kscan_left: kscan_left {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "row2col";
@@ -68,6 +83,15 @@
     kscan_right: kscan_right {
         compatible = "zmk,kscan-gpio-matrix";
         diode-direction = "row2col";
+
+        // Despite the optimized scan, the I2C transactions to poll the state
+        // of the right hand take about 8ms, which could cause issues if the
+        // MCU has a significant amount of work to do. We increase this period
+        // from 10ms to 15ms as a result, which is still slower than time
+        // between two frames in a game at 60fps (16.6…ms), so this shouldn’t
+        // change much in most cases
+        poll-period-ms = <15>;
+
         row-gpios
             = <&io_exp_gpio  4 GPIO_ACTIVE_LOW>  // Numbers
             , <&io_exp_gpio  5 GPIO_ACTIVE_LOW>  // Top
@@ -200,6 +224,34 @@ rp2040_gpio: &gpio0 {
     clock-frequency = <I2C_BITRATE_STANDARD>;
     pinctrl-0 = <&i2c0_custom>;
     pinctrl-names = "default";
+
+    // Some lower-quality TRRS cables may struggle to properly carry out the
+    // I2C communication, as the capacitance of the cable between the SCL and
+    // VCC lines, combined with the pull-up resistors create a low-pass filter
+    // that significantly slows down the rise time of the clock.
+    //
+    // In some cases, this can result in the I2C communication failing
+    // completely, as the rise-time gets too slow for a rising edge to be
+    // considered `high` before the following falling-edge.
+    //
+    // The following two properties (rp2040-specific) alter the time spent in
+    // both the high and low states, to:
+    // 1. slightly slow down the bit-rate (107kHz -> 97kHz)
+    // 2. increase the positive duty-cycle (50% -> 60%)
+    //
+    // Combined, this equates to increasing the time spent in the `high` state
+    // by about 30%.
+
+    // Lengthen the time spent at the `high` state on the clock, to give more
+    // head room for higher capacitance cables to raise the signal to 3.3V.
+    hcnt-offset = <250>;
+
+    // Shorten the time spent at the `low` state on the clock, as the fall-time
+    // is virtually instant, in order to not slow down the bit-rate too much.
+    // While it looks like we can further optimize the time spent at the `low`
+    // state when looking at an osciloscope (and thus speed up the I2C transfer
+    // speed for free), the I2C bus becomes unstable once we cross `-200`.
+    lcnt-offset = <(-175)>;
 
     io_exp_gpio: pcal6524@23 {
         compatible = "nxp,pcal6524";
