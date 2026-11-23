@@ -1,2 +1,4 @@
 uf2/
 zmk/
+build/
+.west/
