@@ -88,3 +88,25 @@ Hopefully, these features will one day make it into upstream ZMK, once they are
 sufficiently polished.
 
 [fork]: https://github.com/nuclear-Squid/zmk
+
+## Build
+
+The .UF2 firmware can be built with a docker/podman container:
+
+```console
+$ podman run --rm -ti -v $PWD:/wdir --workdir /wdir docker.io/zmkfirmware/zmk-build-arm:stable
+#
+# # Remove potential old build
+# rm -r build
+#
+# # Init
+# west init -l zephyr/
+# west update --fetch-opt=--filter=blob:none
+# west zephyr-export
+#
+# # Build
+# west build -s zmk/app -d build -b qmx2040 -- -DZMK_CONFIG=$PWD/config/ -DZMK_EXTRA_MODULES=$PWD -DCONFIG_ZMK_STUDIO=y
+# mv build/zephyr/zmk.uf2 qmx2040.uf2
+```
+
+Then press the reset button for a second and drop the `qmx2040.uf2` on the RPI-RP2 drive using your file browser.
